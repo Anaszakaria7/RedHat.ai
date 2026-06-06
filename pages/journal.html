@@ -443,11 +443,17 @@ onAuthStateChanged(auth, (user) => {
     journalAuthChecked = true;
     loadTrades();
   } else {
+    // Check localStorage first
+    if (localStorage.getItem("redhat_user")) {
+      journalAuthChecked = true;
+      loadTrades();
+      return;
+    }
     setTimeout(() => {
-      if (!journalAuthChecked && !auth.currentUser) {
+      if (!journalAuthChecked && !auth.currentUser && !localStorage.getItem("redhat_user")) {
         window.location.href = "signup.html";
       }
-    }, 1500);
+    }, 2000);
   }
 });
 

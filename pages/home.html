@@ -219,10 +219,26 @@ onAuthStateChanged(auth, (user) => {
       emailEl.textContent = email;
     }
   } else {
-    // Not logged in - wait then redirect
+    // Check localStorage first
+    const localUser = localStorage.getItem("redhat_user");
+    if (localUser) {
+      const userData = JSON.parse(localUser);
+      const displayName = userData.firstName || userData.displayName || "Trader";
+      const email = userData.email || "";
+      const plan = userData.plan || "FREE";
+      const greetingEl = document.getElementById("greetingName");
+      if (greetingEl) greetingEl.innerHTML = displayName + '<span> Dashboard</span>';
+      const planEl = document.getElementById("userPlan");
+      if (planEl) planEl.textContent = plan + " PLAN";
+      const emailEl = document.getElementById("userEmail");
+      if (emailEl) emailEl.textContent = email;
+      return;
+    }
     setTimeout(() => {
-      if (!auth.currentUser) window.location.href = "signup.html";
-    }, 1500);
+      if (!auth.currentUser && !localStorage.getItem("redhat_user")) {
+        window.location.href = "signup.html";
+      }
+    }, 2000);
   }
 });
 
