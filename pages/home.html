@@ -219,8 +219,10 @@ onAuthStateChanged(auth, (user) => {
       emailEl.textContent = email;
     }
   } else {
-    // Not logged in - redirect to signup
-    window.location.href = "signup.html";
+    // Not logged in - wait then redirect
+    setTimeout(() => {
+      if (!auth.currentUser) window.location.href = "signup.html";
+    }, 1500);
   }
 });
 
