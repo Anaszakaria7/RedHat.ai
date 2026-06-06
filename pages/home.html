@@ -31,7 +31,7 @@
   <div class="content">
     <div class="greeting">
       <div class="greeting-sub">Selamat Datang</div>
-      <div class="greeting-name">Trader<span> Dashboard</span></div>
+      <div class="greeting-name" id="greetingName">Trader<span> Dashboard</span></div>
     </div>
 
     <div class="stats-row">
@@ -45,6 +45,17 @@
         <div class="stat-label">Net Pips</div>
         <div class="stat-value green">+8,930</div>
         <div class="stat-sub">Avg +135 pips/trade</div>
+      </div>
+    </div>
+
+    <!-- User Plan Badge -->
+    <div style="padding:0 20px 16px">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:11px;color:var(--text2);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:2px">Pelan Anda</div>
+          <div style="font-size:16px;font-weight:700;color:var(--green)" id="userPlan">FREE PLAN</div>
+        </div>
+        <div style="font-size:12px;color:var(--text2)" id="userEmail">trader@redhat.ai</div>
       </div>
     </div>
 
@@ -163,5 +174,66 @@
     </a>
   </div>
 </div>
+
+<!-- Firebase Auth Check -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB5nJVBAaag6e0jlLHrMnEn6QU7s1Xmgjk",
+  authDomain: "redhat-ai-f89ff.firebaseapp.com",
+  projectId: "redhat-ai-f89ff",
+  storageBucket: "redhat-ai-f89ff.firebasestorage.app",
+  messagingSenderId: "644920268389",
+  appId: "1:644920268389:web:213f0a059aa33374de588c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Check auth state
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is logged in - show their data
+    const userData = JSON.parse(localStorage.getItem("redhat_user") || "{}");
+    const displayName = userData.firstName || userData.displayName || "Trader";
+    const email = userData.email || user.email || "";
+    const plan = userData.plan || "FREE";
+
+    // Update greeting
+    const greetingEl = document.getElementById("greetingName");
+    if (greetingEl) {
+      greetingEl.innerHTML = displayName + '<span> Dashboard</span>';
+    }
+
+    // Update plan badge
+    const planEl = document.getElementById("userPlan");
+    if (planEl) {
+      planEl.textContent = plan + " PLAN";
+    }
+
+    // Update email
+    const emailEl = document.getElementById("userEmail");
+    if (emailEl) {
+      emailEl.textContent = email;
+    }
+  } else {
+    // Not logged in - redirect to signup
+    window.location.href = "signup.html";
+  }
+});
+
+// Logout function (can be called from profile page)
+window.logout = async function() {
+  try {
+    await signOut(auth);
+    localStorage.removeItem("redhat_user");
+    window.location.href = "signup.html";
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
+};
+</script>
 </body>
 </html>
