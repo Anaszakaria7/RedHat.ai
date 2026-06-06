@@ -4,6 +4,17 @@
 
 @import url('variables.css');
 
+/* ── BASE ── */
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
 /* ── CURSOR ── */
 .cursor {
   position: fixed;
@@ -30,8 +41,6 @@
 
 .cursor.hover { width: 20px; height: 20px; }
 .cursor-ring.hover { width: 56px; height: 56px; opacity: 0.4; }
-
-body { cursor: none; }
 
 /* ── LANG SWITCHER ── */
 .lang-switcher {
