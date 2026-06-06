@@ -32,15 +32,15 @@
     <!-- PROFILE HERO -->
     <div class="profile-hero">
       <div class="avatar-ring">
-        <div class="avatar-inner">AZ</div>
+        <div class="avatar-inner" id="avatarInitials">AZ</div>
         <div class="avatar-badge">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
         </div>
       </div>
-      <div class="profile-name">Anas Zakaria</div>
-      <div class="profile-title">Pro Trader · Member Sejak Jan 2024</div>
+      <div class="profile-name" id="profileName">Anas Zakaria</div>
+      <div class="profile-title" id="profileTitle">Pro Trader · Member Sejak Jan 2024</div>
       <div class="profile-tags">
-        <div class="tag gold">⭐ PRO PLAN</div>
+        <div class="tag gold" id="planTag">⭐ FREE PLAN</div>
         <div class="tag cyan">XAUUSD Specialist</div>
         <div class="tag green">85% Win Rate</div>
       </div>
@@ -53,15 +53,15 @@
     <!-- STATS STRIP -->
     <div class="stats-strip">
       <div class="strip-item">
-        <div class="strip-val green">+8,930</div>
+        <div class="strip-val green" id="statPips">+8,930</div>
         <div class="strip-label">Net Pips</div>
       </div>
       <div class="strip-item">
-        <div class="strip-val gold">147</div>
+        <div class="strip-val gold" id="statTrades">0</div>
         <div class="strip-label">Trades</div>
       </div>
       <div class="strip-item">
-        <div class="strip-val red">18</div>
+        <div class="strip-val red" id="statStreak">0</div>
         <div class="strip-label">Streak Hari</div>
       </div>
     </div>
@@ -72,16 +72,16 @@
     </div>
     <div class="plan-card">
       <div class="plan-row">
-        <div class="plan-name">PRO TRADER</div>
+        <div class="plan-name" id="planName">FREE TRADER</div>
         <div class="plan-badge">AKTIF</div>
       </div>
-      <div class="plan-expires">Tamat: <span>31 Disember 2025</span></div>
+      <div class="plan-expires">Akses penuh selamanya · <span style="color:var(--green)">Percuma</span></div>
       <div class="plan-progress-label">
         <span>Tempoh Digunakan</span>
-        <span style="color:var(--gold)">72%</span>
+        <span style="color:var(--gold)" id="planProgress">0%</span>
       </div>
-      <div class="plan-bar"><div class="plan-bar-fill"></div></div>
-      <button class="upgrade-btn">⚡ NAIK TARAF KE ELITE</button>
+      <div class="plan-bar"><div class="plan-bar-fill" id="planBarFill" style="width:0%"></div></div>
+      <button class="upgrade-btn">⚡ NAIK TARAF KE PRO</button>
     </div>
 
     <!-- PERFORMANCE -->
@@ -91,52 +91,46 @@
     <div class="perf-card">
       <div class="perf-row">
         <div class="perf-left">
-          <div class="perf-icon green">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          </div>
-          <div>
-            <div class="perf-label">Win Rate</div>
-            <div class="perf-sub">56 Menang / 10 Kalah</div>
-          </div>
+          <div class="perf-icon green"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+          <div><div class="perf-label">Win Rate</div><div class="perf-sub" id="perfWinRate">0 Menang / 0 Kalah</div></div>
         </div>
-        <div class="perf-val green">85%</div>
+        <div class="perf-val green" id="perfWinRateVal">0%</div>
       </div>
       <div class="perf-row">
         <div class="perf-left">
-          <div class="perf-icon cyan">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </div>
-          <div>
-            <div class="perf-label">Profit Bulan Ini</div>
-            <div class="perf-sub">Avg +135 pips/trade</div>
-          </div>
+          <div class="perf-icon cyan"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div><div class="perf-label">Profit Bulan Ini</div><div class="perf-sub" id="perfProfit">Avg 0 pips/trade</div></div>
         </div>
-        <div class="perf-val cyan">+RM 2,340</div>
+        <div class="perf-val cyan" id="perfProfitVal">+RM 0</div>
       </div>
       <div class="perf-row">
         <div class="perf-left">
-          <div class="perf-icon gold">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <div class="perf-label">Masa Trading Aktif</div>
-            <div class="perf-sub">Sesi London & Tokyo</div>
-          </div>
+          <div class="perf-icon gold"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><div class="perf-label">Masa Trading Aktif</div><div class="perf-sub">Sesi London & Tokyo</div></div>
         </div>
-        <div class="perf-val gold">142 Jam</div>
+        <div class="perf-val gold" id="perfHours">0 Jam</div>
       </div>
       <div class="perf-row">
         <div class="perf-left">
-          <div class="perf-icon red">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          </div>
-          <div>
-            <div class="perf-label">Max Drawdown</div>
-            <div class="perf-sub">Had risiko: 2% setiap trade</div>
-          </div>
+          <div class="perf-icon red"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <div><div class="perf-label">Max Drawdown</div><div class="perf-sub">Had risiko: 2% setiap trade</div></div>
         </div>
-        <div class="perf-val red">-3.2%</div>
+        <div class="perf-val red" id="perfDrawdown">0%</div>
       </div>
+    </div>
+
+    <!-- TRADING JOURNAL LINK -->
+    <div class="section-header">
+      <div class="section-title">Trading Journal</div>
+    </div>
+    <div class="menu-card">
+      <a href="journal.html" class="menu-item">
+        <div class="menu-left">
+          <div class="menu-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg></div>
+          <div><div class="menu-label">Journal Saya</div><div class="menu-sub" id="journalCount">0 trades direkodkan</div></div>
+        </div>
+        <svg class="menu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+      </a>
     </div>
 
     <!-- SETTINGS MENU -->
@@ -144,77 +138,40 @@
       <div class="section-title">Tetapan & Akaun</div>
     </div>
     <div class="menu-card">
-      <a href="#" class="menu-item">
+      <a href="#" class="menu-item" onclick="openEditModal(); return false;">
         <div class="menu-left">
-          <div class="menu-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </div>
-          <div>
-            <div class="menu-label">Maklumat Peribadi</div>
-            <div class="menu-sub">Nama, emel, nombor telefon</div>
-          </div>
+          <div class="menu-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div><div class="menu-label">Maklumat Peribadi</div><div class="menu-sub">Nama, emel, nombor telefon</div></div>
+        </div>
+        <svg class="menu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+      </a>
+      <a href="#" class="menu-item" onclick="openResetPasswordModal(); return false;">
+        <div class="menu-left">
+          <div class="menu-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <div><div class="menu-label">Tukar Kata Laluan</div><div class="menu-sub">Reset kata laluan akaun anda</div></div>
         </div>
         <svg class="menu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
       </a>
       <a href="#" class="menu-item">
         <div class="menu-left">
-          <div class="menu-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </div>
-          <div>
-            <div class="menu-label">Keselamatan</div>
-            <div class="menu-sub">Kata laluan, 2FA</div>
-          </div>
-        </div>
-        <svg class="menu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
-      </a>
-      <a href="#" class="menu-item">
-        <div class="menu-left">
-          <div class="menu-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          </div>
-          <div>
-            <div class="menu-label">Notifikasi Signal</div>
-            <div class="menu-sub">Push, bunyi, gegaran</div>
-          </div>
+          <div class="menu-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+          <div><div class="menu-label">Notifikasi Signal</div><div class="menu-sub">Push, bunyi, gegaran</div></div>
         </div>
         <div class="menu-chip green">ON</div>
       </a>
       <a href="#" class="menu-item">
         <div class="menu-left">
-          <div class="menu-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-          </div>
-          <div>
-            <div class="menu-label">Pasangan Mata Wang</div>
-            <div class="menu-sub">XAUUSD, EURUSD +3 lagi</div>
-          </div>
+          <div class="menu-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+          <div><div class="menu-label">Pasangan Mata Wang</div><div class="menu-sub">XAUUSD, NASDAQ</div></div>
         </div>
         <svg class="menu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
       </a>
       <a href="#" class="menu-item">
         <div class="menu-left">
-          <div class="menu-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          </div>
-          <div>
-            <div class="menu-label">Pengurusan Risiko</div>
-            <div class="menu-sub">Lot size, had drawdown</div>
-          </div>
+          <div class="menu-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div><div class="menu-label">Pengurusan Risiko</div><div class="menu-sub">Lot size, had drawdown</div></div>
         </div>
         <div class="menu-chip">SETUP</div>
-      </a>
-      <a href="#" class="menu-item">
-        <div class="menu-left">
-          <div class="menu-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </div>
-          <div>
-            <div class="menu-label">Sokongan & Bantuan</div>
-            <div class="menu-sub">Hubungi support kami</div>
-          </div>
-        </div>
-        <svg class="menu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
       </a>
     </div>
 
@@ -251,7 +208,7 @@
     </a>
   </div>
 
-  <!-- EDIT MODAL -->
+  <!-- EDIT PROFILE MODAL -->
   <div class="modal-overlay" id="editModal" onclick="handleOverlayClick(event)">
     <div class="modal-sheet" id="editSheet">
       <div class="modal-handle"></div>
@@ -259,83 +216,291 @@
       <div class="form-row">
         <div class="form-field">
           <label class="form-label">Nama Pertama</label>
-          <input class="form-input" type="text" value="Anas">
+          <input class="form-input" type="text" id="editFirstName" value="">
         </div>
         <div class="form-field">
           <label class="form-label">Nama Akhir</label>
-          <input class="form-input" type="text" value="Zakaria">
+          <input class="form-input" type="text" id="editLastName" value="">
         </div>
       </div>
       <div class="form-field">
         <label class="form-label">Emel</label>
-        <input class="form-input" type="email" value="anas@example.com">
+        <input class="form-input" type="email" id="editEmail" value="" readonly style="opacity:0.6">
       </div>
       <div class="form-field">
         <label class="form-label">Nombor Telefon</label>
-        <input class="form-input" type="tel" value="+60 12-345 6789">
+        <input class="form-input" type="tel" id="editPhone" value="+60 12-345 6789">
       </div>
       <div class="form-field">
         <label class="form-label">Pengkhususan</label>
-        <input class="form-input" type="text" value="XAUUSD Specialist">
+        <input class="form-input" type="text" id="editSpeciality" value="XAUUSD Specialist">
       </div>
-      <button class="modal-save" onclick="saveProfile()">SIMPAN PERUBAHAN</button>
+      <button class="modal-save" id="btnSaveProfile" onclick="saveProfile()">SIMPAN PERUBAHAN</button>
       <button class="modal-cancel" onclick="closeEditModal()">Batal</button>
+    </div>
+  </div>
+
+  <!-- RESET PASSWORD MODAL -->
+  <div class="modal-overlay" id="resetPasswordModal" onclick="handleResetOverlayClick(event)">
+    <div class="modal-sheet" id="resetSheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Tukar Kata Laluan</div>
+      <div class="form-field">
+        <label class="form-label">Kata Laluan Semasa</label>
+        <input class="form-input" type="password" id="currentPassword" placeholder="Masukkan kata laluan semasa">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Kata Laluan Baru</label>
+        <input class="form-input" type="password" id="newPassword" placeholder="Minimum 8 aksara">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Sahkan Kata Laluan Baru</label>
+        <input class="form-input" type="password" id="confirmNewPassword" placeholder="Ulang kata laluan baru">
+      </div>
+      <button class="modal-save" id="btnResetPassword" onclick="resetPassword()">TUKAR KATA LALUAN</button>
+      <button class="modal-cancel" onclick="closeResetPasswordModal()">Batal</button>
     </div>
   </div>
 
 </div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<script>
+const firebaseConfig = {
+  apiKey: "AIzaSy...mgjk",
+  authDomain: "redhat-ai-f89ff.firebaseapp.com",
+  projectId: "redhat-ai-f89ff",
+  storageBucket: "redhat-ai-f89ff.firebasestorage.app",
+  messagingSenderId: "644920268389",
+  appId: "1:644920268389:web:213f0a059aa33374de588c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Toast
+function toast(msg, type) {
+  const old = document.querySelector(".toast-msg");
+  if (old) old.remove();
+  const t = document.createElement("div");
+  t.className = "toast-msg";
+  t.textContent = msg;
+  const colors = { success: "#00d67f", error: "#e63946", info: "#00c8ff" };
+  t.style.cssText = `position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:${colors[type]||colors.info};color:${type==='success'?'#000':'#fff'};padding:12px 24px;border-radius:8px;font-family:Rajdhani,sans-serif;font-weight:700;font-size:14px;z-index:9999;letter-spacing:0.5px;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.3);`;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
 // Load user data
-const userData = JSON.parse(localStorage.getItem("redhat_user") || "{}");
-const firstName = userData.firstName || "Anas";
-const lastName = userData.lastName || "Zakaria";
-const email = userData.email || "anas@example.com";
-const displayName = userData.displayName || `${firstName} ${lastName}`;
+async function loadUserData() {
+  const user = auth.currentUser;
+  if (!user) { window.location.href = "signup.html"; return; }
 
-// Update profile fields
-document.querySelector('.profile-name').textContent = displayName;
-document.querySelector('.profile-title').textContent = `Pro Trader · Member Sejak Jan 2024`;
-document.getElementById('editSheet').querySelectorAll('.form-input')[0].value = firstName;
-document.getElementById('editSheet').querySelectorAll('.form-input')[1].value = lastName;
-document.getElementById('editSheet').querySelectorAll('.form-input')[2].value = email;
+  // Get profile from Firestore
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+  const userData = userDoc.data() || {};
 
-function openEditModal() {
-  document.getElementById('editModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeEditModal() {
-  document.getElementById('editModal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('editModal')) closeEditModal();
-}
-function saveProfile() {
-  closeEditModal();
-  const toast = document.createElement('div');
-  toast.textContent = '✓ Profil berjaya dikemaskini';
-  toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#00d67f;color:#000;padding:10px 20px;border-radius:8px;font-family:Rajdhani,sans-serif;font-weight:700;font-size:14px;z-index:300;letter-spacing:0.5px';
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 2500);
+  const firstName = userData.firstName || "";
+  const lastName = userData.lastName || "";
+  const email = user.email || userData.email || "";
+  const displayName = userData.displayName || `${firstName} ${lastName}` || email;
+  const phone = userData.phone || "+60 12-345 6789";
+  const speciality = userData.speciality || "XAUUSD Specialist";
+  const plan = userData.plan || "FREE";
+  const createdAt = userData.createdAt;
+
+  // Update profile display
+  document.getElementById("profileName").textContent = displayName;
+  document.getElementById("avatarInitials").textContent = (firstName[0] || "") + (lastName[0] || "U");
+  document.getElementById("planTag").textContent = `⭐ ${plan} PLAN`;
+  document.getElementById("planName").textContent = `${plan} TRADER`;
+
+  // Member since
+  if (createdAt && createdAt.toDate) {
+    const date = createdAt.toDate();
+    const month = date.toLocaleDateString("ms-MY", { month: "short", year: "numeric" });
+    document.getElementById("profileTitle").textContent = `Pro Trader · Member Sejak ${month}`;
+  }
+
+  // Update edit modal fields
+  document.getElementById("editFirstName").value = firstName;
+  document.getElementById("editLastName").value = lastName;
+  document.getElementById("editEmail").value = email;
+  document.getElementById("editPhone").value = phone;
+  document.getElementById("editSpeciality").value = speciality;
+
+  // Load trading stats
+  await loadTradingStats(user.uid);
 }
 
-// Firebase Logout
-async function handleLogout() {
+// Load trading stats from journal
+async function loadTradingStats(uid) {
   try {
-    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
-    const { getAuth, signOut } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
-    const firebaseConfig = {
-      apiKey: "AIzaSy...mgjk",
-      authDomain: "redhat-ai-f89ff.firebaseapp.com",
-      projectId: "redhat-ai-f89ff",
-      storageBucket: "redhat-ai-f89ff.firebasestorage.app",
-      messagingSenderId: "644920268389",
-      appId: "1:644920268389:web:213f0a059aa33374de588c"
+    const q = query(collection(db, "trades"), where("userId", "==", uid), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    const trades = snapshot.docs.map(d => d.data());
+
+    const totalTrades = trades.length;
+    const wins = trades.filter(t => t.result === "WIN").length;
+    const losses = trades.filter(t => t.result === "LOSS").length;
+    const winRate = totalTrades > 0 ? Math.round((wins / totalTrades) * 100) : 0;
+    const totalPips = trades.reduce((sum, t) => sum + (t.pips || 0), 0);
+    const avgPips = totalTrades > 0 ? Math.round(totalPips / totalTrades) : 0;
+
+    // Update stats
+    document.getElementById("statTrades").textContent = totalTrades;
+    document.getElementById("statPips").textContent = (totalPips >= 0 ? "+" : "") + totalPips;
+    document.getElementById("statPips").className = "strip-val " + (totalPips >= 0 ? "green" : "red");
+    document.getElementById("perfWinRate").textContent = `${wins} Menang / ${losses} Kalah`;
+    document.getElementById("perfWinRateVal").textContent = `${winRate}%`;
+    document.getElementById("perfProfit").textContent = `Avg ${avgPips >= 0 ? "+" : ""}${avgPips} pips/trade`;
+    document.getElementById("perfProfitVal").textContent = `+RM ${Math.round(totalPips * 1.5)}`;
+    document.getElementById("journalCount").textContent = `${totalTrades} trades direkodkan`;
+
+    // Plan progress (days since join)
+    const userDoc = await getDoc(doc(db, "users", uid));
+    const userData = userDoc.data() || {};
+    if (userData.createdAt && userData.createdAt.toDate) {
+      const daysSince = Math.floor((Date.now() - userData.createdAt.toDate().getTime()) / (1000 * 60 * 60 * 24));
+      const progress = Math.min(100, Math.round((daysSince / 365) * 100));
+      document.getElementById("planProgress").textContent = `${progress}%`;
+      document.getElementById("planBarFill").style.width = `${progress}%`;
+    }
+  } catch (e) {
+    console.log("No trades yet");
+  }
+}
+
+// Auth state
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loadUserData();
+  } else {
+    window.location.href = "signup.html";
+  }
+});
+
+// Edit Profile Modal
+window.openEditModal = function() {
+  document.getElementById("editModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+};
+window.closeEditModal = function() {
+  document.getElementById("editModal").classList.remove("open");
+  document.body.style.overflow = "";
+};
+window.handleOverlayClick = function(e) {
+  if (e.target === document.getElementById("editModal")) closeEditModal();
+};
+
+// Save Profile to Firestore
+window.saveProfile = async function() {
+  const btn = document.getElementById("btnSaveProfile");
+  btn.disabled = true;
+  btn.textContent = "⏳ Menyimpan...";
+
+  try {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const firstName = document.getElementById("editFirstName").value.trim();
+    const lastName = document.getElementById("editLastName").value.trim();
+    const phone = document.getElementById("editPhone").value.trim();
+    const speciality = document.getElementById("editSpeciality").value.trim();
+
+    if (!firstName || !lastName) { toast("Sila isi nama.", "error"); btn.disabled = false; btn.textContent = "SIMPAN PERUBAHAN"; return; }
+
+    await setDoc(doc(db, "users", user.uid), {
+      firstName, lastName, phone, speciality,
+      displayName: `${firstName} ${lastName}`,
+      email: user.email,
+      plan: "FREE",
+      role: "trader"
+    }, { merge: true });
+
+    // Update localStorage
+    localStorage.setItem("redhat_user", JSON.stringify({
+      uid: user.uid, email: user.email, firstName, lastName,
+      displayName: `${firstName} ${lastName}`, plan: "FREE"
+    }));
+
+    // Update display
+    document.getElementById("profileName").textContent = `${firstName} ${lastName}`;
+    document.getElementById("avatarInitials").textContent = firstName[0] + lastName[0];
+
+    closeEditModal();
+    toast("✓ Profil berjaya dikemaskini!", "success");
+  } catch (error) {
+    toast("Ralat: " + error.message, "error");
+  }
+  btn.disabled = false;
+  btn.textContent = "SIMPAN PERUBAHAN";
+};
+
+// Reset Password Modal
+window.openResetPasswordModal = function() {
+  document.getElementById("resetPasswordModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+};
+window.closeResetPasswordModal = function() {
+  document.getElementById("resetPasswordModal").classList.remove("open");
+  document.body.style.overflow = "";
+};
+window.handleResetOverlayClick = function(e) {
+  if (e.target === document.getElementById("resetPasswordModal")) closeResetPasswordModal();
+};
+
+// Reset Password
+window.resetPassword = async function() {
+  const btn = document.getElementById("btnResetPassword");
+  const currentPass = document.getElementById("currentPassword").value;
+  const newPass = document.getElementById("newPassword").value;
+  const confirmPass = document.getElementById("confirmNewPassword").value;
+
+  if (!currentPass || !newPass || !confirmPass) { toast("Sila isi semua field.", "error"); return; }
+  if (newPass !== confirmPass) { toast("Kata laluan baru tidak sepadan!", "error"); return; }
+  if (newPass.length < 8) { toast("Kata laluan baru terlalu pendek.", "error"); return; }
+
+  btn.disabled = true;
+  btn.textContent = "⏳ Menukar...";
+
+  try {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    // Re-authenticate first
+    const credential = EmailAuthProvider.credential(user.email, currentPass);
+    await reauthenticateWithCredential(user, credential);
+
+    // Update password
+    await updatePassword(user, newPass);
+
+    closeResetPasswordModal();
+    toast("✓ Kata laluan berjaya ditukar!", "success");
+
+    // Clear fields
+    document.getElementById("currentPassword").value = "";
+    document.getElementById("newPassword").value = "";
+    document.getElementById("confirmNewPassword").value = "";
+  } catch (error) {
+    const msgs = {
+      "auth/wrong-password": "Kata laluan semasa salah.",
+      "auth/too-many-requests": "Terlalu banyak cubaan. Tunggu sebentar.",
+      "auth/weak-password": "Kata laluan baru terlalu lemah."
     };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    toast(msgs[error.code] || "Ralat: " + error.message, "error");
+  }
+  btn.disabled = false;
+  btn.textContent = "TUKAR KATA LALUAN";
+};
+
+// Logout
+window.handleLogout = async function() {
+  try {
     await signOut(auth);
     localStorage.removeItem("redhat_user");
     window.location.href = "signup.html";
@@ -343,7 +508,7 @@ async function handleLogout() {
     localStorage.removeItem("redhat_user");
     window.location.href = "signup.html";
   }
-}
+};
 </script>
 </body>
 </html>

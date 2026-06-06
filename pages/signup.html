@@ -81,7 +81,7 @@
       <input class="form-input" type="password" placeholder="Kata laluan anda" id="loginPass">
     </div>
     <div style="text-align:right;margin-bottom:20px">
-      <a href="#" style="font-size:13px;color:var(--text2);text-decoration:none">Lupa kata laluan?</a>
+      <a href="#" onclick="openForgotPasswordModal(); return false;" style="font-size:13px;color:var(--text2);text-decoration:none">Lupa kata laluan?</a>
     </div>
 
     <button class="btn-main" id="btnLogin" onclick="handleLogin()">LOG MASUK →</button>
@@ -347,6 +347,59 @@ window.handleGoogleLogin = async function() {
     btn.disabled = false;
   }
 }
+
+// ═══════════════════════════════════════════
+// FORGOT PASSWORD
+// ═══════════════════════════════════════════
+window.openForgotPasswordModal = function() {
+  document.getElementById("forgotPasswordModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+};
+window.closeForgotPasswordModal = function() {
+  document.getElementById("forgotPasswordModal").classList.remove("open");
+  document.body.style.overflow = "";
+};
+window.handleForgotOverlayClick = function(e) {
+  if (e.target === document.getElementById("forgotPasswordModal")) closeForgotPasswordModal();
+};
+
+window.handleForgotPassword = async function() {
+  const btn = document.getElementById("btnForgotPassword");
+  const email = document.getElementById("forgotEmail").value.trim();
+
+  if (!email) { toast("Sila masukkan emel anda.", "error"); return; }
+
+  btn.disabled = true;
+  btn.textContent = "⏳ Menghantar...";
+
+  try {
+    const { sendPasswordResetEmail } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+    await sendPasswordResetEmail(auth, email);
+    closeForgotPasswordModal();
+    toast("✅ Emel reset kata laluan telah dihantar. Semak inbox anda.", "success");
+    document.getElementById("forgotEmail").value = "";
+  } catch (error) {
+    toast(getErrorMsg(error.code), 'error');
+  }
+  btn.disabled = false;
+  btn.textContent = "HANTAR EMEL RESET";
+};
 </script>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay" id="forgotPasswordModal" onclick="handleForgotOverlayClick(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Reset Kata Laluan</div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:20px;line-height:1.5">Masukkan emel anda dan kami akan hantar pautan untuk menukar kata laluan.</p>
+    <div class="form-field">
+      <label class="form-label">Emel</label>
+      <input class="form-input" type="email" id="forgotEmail" placeholder="anda@email.com">
+    </div>
+    <button class="modal-save" id="btnForgotPassword" onclick="handleForgotPassword()">HANTAR EMEL RESET</button>
+    <button class="modal-cancel" onclick="closeForgotPasswordModal()">Batal</button>
+  </div>
+</div>
+
 </body>
 </html>

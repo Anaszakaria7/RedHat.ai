@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RedHat.AI — Trading Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/profile.css">
+<style>
+/* Journal specific styles */
+.journal-header {
+  padding: 18px 20px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.journal-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.add-trade-btn {
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Stats cards */
+.journal-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 0 20px 16px;
+}
+.journal-stat {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+.journal-stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.journal-stat-label {
+  font-size: 10px;
+  color: var(--text2);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Trade cards */
+.trades-list {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.trade-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.trade-card-top {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.trade-pair {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.trade-dir {
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.trade-dir.buy { background: rgba(0,214,127,0.15); color: var(--green); border: 1px solid rgba(0,214,127,0.3); }
+.trade-dir.sell { background: rgba(230,57,70,0.12); color: var(--red); border: 1px solid rgba(230,57,70,0.3); }
+.trade-result {
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.trade-result.win { background: rgba(0,214,127,0.15); color: var(--green); border: 1px solid rgba(0,214,127,0.3); }
+.trade-result.loss { background: rgba(230,57,70,0.12); color: var(--red); border: 1px solid rgba(230,57,70,0.3); }
+.trade-card-body {
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.trade-field label {
+  font-size: 9px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+.trade-field span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+}
+.trade-card-note {
+  padding: 8px 14px;
+  background: var(--bg3);
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.4;
+}
+.trade-card-date {
+  padding: 6px 14px;
+  font-size: 10px;
+  color: var(--text3);
+  text-align: right;
+  border-top: 1px solid var(--border);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text2);
+}
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+.empty-state h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.empty-state p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Modal additions */
+.trade-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+</style>
+</head>
+<body class="app-theme">
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="logo-name">REDHAT<span>.AI</span></div>
+    </div>
+    <div class="header-right">
+      <div class="page-title">Journal</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- JOURNAL HEADER -->
+    <div class="journal-header">
+      <h1>Trading Journal</h1>
+      <button class="add-trade-btn" onclick="openAddModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Tambah Trade
+      </button>
+    </div>
+
+    <!-- STATS -->
+    <div class="journal-stats">
+      <div class="journal-stat">
+        <div class="journal-stat-val" id="jTotalTrades">0</div>
+        <div class="journal-stat-label">Total Trades</div>
+      </div>
+      <div class="journal-stat">
+        <div class="journal-stat-val" id="jWinRate" style="color:var(--green)">0%</div>
+        <div class="journal-stat-label">Win Rate</div>
+      </div>
+      <div class="journal-stat">
+        <div class="journal-stat-val" id="jNetPips">0</div>
+        <div class="journal-stat-label">Net Pips</div>
+      </div>
+      <div class="journal-stat">
+        <div class="journal-stat-val" id="jProfit" style="color:var(--cyan)">+RM 0</div>
+        <div class="journal-stat-label">Est. Profit</div>
+      </div>
+    </div>
+
+    <!-- TRADES LIST -->
+    <div class="trades-list" id="tradesList">
+      <!-- Trades will be loaded here -->
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-state-icon">📊</div>
+      <h3>Belum ada trade direkodkan</h3>
+      <p>Mula rekod trade anda untuk jejaki prestasi dan analisis keputusan trading.</p>
+      <button class="add-trade-btn" onclick="openAddModal()" style="margin:0 auto">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Rekod Trade Pertama
+      </button>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <a href="home.html" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      <div class="nav-label">Home</div>
+    </a>
+    <a href="signals.html" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      <div class="nav-label">Signals</div>
+    </a>
+    <a href="mentor.html" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      <div class="nav-label">A.I. Mentor</div>
+    </a>
+    <a href="tools.html" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <div class="nav-label">Tools</div>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
+
+  <!-- ADD TRADE MODAL -->
+  <div class="modal-overlay" id="addTradeModal" onclick="handleAddOverlayClick(event)">
+    <div class="modal-sheet" style="max-height:90vh;overflow-y:auto">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Rekod Trade Baru</div>
+
+      <div class="trade-form-row">
+        <div class="form-field">
+          <label class="form-label">Pasangan</label>
+          <select class="form-input" id="tradePair">
+            <option value="XAUUSD">XAUUSD</option>
+            <option value="NASDAQ">NASDAQ</option>
+            <option value="EURUSD">EURUSD</option>
+            <option value="GBPUSD">GBPUSD</option>
+            <option value="USDJPY">USDJPY</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Arah</label>
+          <select class="form-input" id="tradeDir">
+            <option value="BUY">BUY</option>
+            <option value="SELL">SELL</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="trade-form-row">
+        <div class="form-field">
+          <label class="form-label">Harga Entry</label>
+          <input class="form-input" type="number" id="tradeEntry" placeholder="4,472.00" step="0.01">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Stop Loss</label>
+          <input class="form-input" type="number" id="tradeSL" placeholder="4,457.00" step="0.01">
+        </div>
+      </div>
+
+      <div class="trade-form-row">
+        <div class="form-field">
+          <label class="form-label">Take Profit</label>
+          <input class="form-input" type="number" id="tradeTP" placeholder="4,487.00" step="0.01">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Harga Exit</label>
+          <input class="form-input" type="number" id="tradeExit" placeholder="4,485.00" step="0.01">
+        </div>
+      </div>
+
+      <div class="trade-form-row">
+        <div class="form-field">
+          <label class="form-label">Saiz Lot</label>
+          <input class="form-input" type="number" id="tradeLot" placeholder="0.10" step="0.01" value="0.10">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Keputusan</label>
+          <select class="form-input" id="tradeResult">
+            <option value="WIN">WIN ✅</option>
+            <option value="LOSS">LOSS ❌</option>
+            <option value="BREAKEVEN">BREAKEVEN ➖</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Nota (optional)</label>
+        <textarea class="form-input" id="tradeNote" placeholder="Catatan tentang trade ini..." rows="2" style="resize:vertical;min-height:40px"></textarea>
+      </div>
+
+      <button class="modal-save" id="btnSaveTrade" onclick="saveTrade()">💾 SIMPAN TRADE</button>
+      <button class="modal-cancel" onclick="closeAddModal()">Batal</button>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSy...mgjk",
+  authDomain: "redhat-ai-f89ff.firebaseapp.com",
+  projectId: "redhat-ai-f89ff",
+  storageBucket: "redhat-ai-f89ff.firebasestorage.app",
+  messagingSenderId: "644920268389",
+  appId: "1:644920268389:web:213f0a059aa33374de588c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+function toast(msg, type) {
+  const old = document.querySelector(".toast-msg");
+  if (old) old.remove();
+  const t = document.createElement("div");
+  t.className = "toast-msg";
+  t.textContent = msg;
+  const colors = { success: "#00d67f", error: "#e63946", info: "#00c8ff" };
+  t.style.cssText = `position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:${colors[type]||colors.info};color:${type==='success'?'#000':'#fff'};padding:12px 24px;border-radius:8px;font-family:Rajdhani,sans-serif;font-weight:700;font-size:14px;z-index:9999;letter-spacing:0.5px;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.3);`;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+// Load trades
+async function loadTrades() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const q = query(collection(db, "trades"), where("userId", "==", user.uid), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    const trades = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    const listEl = document.getElementById("tradesList");
+    const emptyEl = document.getElementById("emptyState");
+
+    if (trades.length === 0) {
+      listEl.innerHTML = "";
+      emptyEl.style.display = "block";
+      return;
+    }
+
+    emptyEl.style.display = "none";
+
+    // Calculate stats
+    const total = trades.length;
+    const wins = trades.filter(t => t.result === "WIN").length;
+    const losses = trades.filter(t => t.result === "LOSS").length;
+    const winRate = Math.round((wins / total) * 100);
+    const netPips = trades.reduce((sum, t) => sum + (t.pips || 0), 0);
+
+    document.getElementById("jTotalTrades").textContent = total;
+    document.getElementById("jWinRate").textContent = winRate + "%";
+    document.getElementById("jNetPips").textContent = (netPips >= 0 ? "+" : "") + netPips;
+    document.getElementById("jNetPips").style.color = netPips >= 0 ? "var(--green)" : "var(--red)";
+    document.getElementById("jProfit").textContent = "+RM " + Math.round(Math.abs(netPips) * 1.5);
+
+    // Render trades
+    listEl.innerHTML = trades.map(t => {
+      const date = t.createdAt?.toDate ? t.createdAt.toDate().toLocaleDateString("ms-MY", { day: "numeric", month: "short", year: "numeric" }) : "—";
+      const resultClass = t.result === "WIN" ? "win" : t.result === "LOSS" ? "loss" : "";
+      const resultText = t.result === "WIN" ? "WIN ✅" : t.result === "LOSS" ? "LOSS ❌" : "BREAKEVEN ➖";
+      const dirClass = t.direction === "BUY" ? "buy" : "sell";
+      const pipsColor = (t.pips || 0) >= 0 ? "var(--green)" : "var(--red)";
+
+      return `
+        <div class="trade-card">
+          <div class="trade-card-top">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="trade-pair">${t.pair}</span>
+              <span class="trade-dir ${dirClass}">${t.direction}</span>
+            </div>
+            <span class="trade-result ${resultClass}">${resultText}</span>
+          </div>
+          <div class="trade-card-body">
+            <div class="trade-field"><label>Entry</label><span>${t.entry || "—"}</span></div>
+            <div class="trade-field"><label>SL</label><span style="color:var(--red)">${t.stopLoss || "—"}</span></div>
+            <div class="trade-field"><label>TP</label><span style="color:var(--cyan)">${t.takeProfit || "—"}</span></div>
+            <div class="trade-field"><label>Pips</label><span style="color:${pipsColor}">${(t.pips || 0) >= 0 ? "+" : ""}${t.pips || 0}</span></div>
+          </div>
+          ${t.note ? `<div class="trade-card-note">📝 ${t.note}</div>` : ""}
+          <div class="trade-card-date">${date} · Lot: ${t.lotSize || "—"}</div>
+        </div>
+      `;
+    }).join("");
+
+  } catch (error) {
+    console.error("Error loading trades:", error);
+  }
+}
+
+// Auth check
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loadTrades();
+  } else {
+    window.location.href = "signup.html";
+  }
+});
+
+// Modal functions
+window.openAddModal = function() {
+  document.getElementById("addTradeModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+};
+window.closeAddModal = function() {
+  document.getElementById("addTradeModal").classList.remove("open");
+  document.body.style.overflow = "";
+};
+window.handleAddOverlayClick = function(e) {
+  if (e.target === document.getElementById("addTradeModal")) closeAddModal();
+};
+
+// Save trade
+window.saveTrade = async function() {
+  const btn = document.getElementById("btnSaveTrade");
+  const pair = document.getElementById("tradePair").value;
+  const direction = document.getElementById("tradeDir").value;
+  const entry = parseFloat(document.getElementById("tradeEntry").value);
+  const sl = parseFloat(document.getElementById("tradeSL").value);
+  const tp = parseFloat(document.getElementById("tradeTP").value);
+  const exitPrice = parseFloat(document.getElementById("tradeExit").value);
+  const lotSize = parseFloat(document.getElementById("tradeLot").value) || 0.1;
+  const result = document.getElementById("tradeResult").value;
+  const note = document.getElementById("tradeNote").value.trim();
+
+  if (!entry || !exitPrice) { toast("Sila isi harga entry dan exit.", "error"); return; }
+
+  // Calculate pips
+  let pips = 0;
+  if (pair === "XAUUSD") {
+    pips = Math.round((exitPrice - entry) * 10);
+  } else if (pair === "NASDAQ") {
+    pips = Math.round((exitPrice - entry) * 1);
+  } else {
+    pips = Math.round((exitPrice - entry) * 10000);
+  }
+  if (direction === "SELL") pips = -pips;
+
+  // Adjust for result
+  if (result === "LOSS" && pips > 0) pips = -Math.abs(pips);
+  if (result === "WIN" && pips < 0) pips = Math.abs(pips);
+  if (result === "BREAKEVEN") pips = 0;
+
+  btn.disabled = true;
+  btn.textContent = "⏳ Menyimpan...";
+
+  try {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    await addDoc(collection(db, "trades"), {
+      userId: user.uid,
+      pair, direction, entry, stopLoss: sl, takeProfit: tp,
+      exit: exitPrice, lotSize, result, pips, note,
+      createdAt: serverTimestamp()
+    });
+
+    closeAddModal();
+    toast("✓ Trade berjaya direkodkan!", "success");
+
+    // Clear form
+    document.getElementById("tradeEntry").value = "";
+    document.getElementById("tradeSL").value = "";
+    document.getElementById("tradeTP").value = "";
+    document.getElementById("tradeExit").value = "";
+    document.getElementById("tradeNote").value = "";
+
+    // Reload
+    loadTrades();
+  } catch (error) {
+    toast("Ralat: " + error.message, "error");
+  }
+  btn.disabled = false;
+  btn.textContent = "💾 SIMPAN TRADE";
+};
+</script>
+</body>
+</html>
