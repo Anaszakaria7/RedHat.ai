@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ms" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RedHat.AI — The A.I. Edge Other Traders Don't Have.</title>
+<meta name="description" content="Kelebihan A.I. yang trader lain tak ada. Signal lebih bijak, mentor A.I. 24/7, dan tools pengurusan risiko yang pintar — percuma. Sertai 3,000+ trader sekarang.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#features" data-ms="Features" data-en="Features">Features</a>
+  <a href="#tools" data-ms="Tools" data-en="Tools">Tools</a>
+  <a href="#pricing" data-ms="Harga" data-en="Pricing">Harga</a>
+  <a href="signup.html" class="nav-cta" style="font-family:'Rajdhani',sans-serif;font-size:16px" data-ms="Mulakan Sekarang" data-en="Get Started">Mulakan Sekarang</a>
+</div>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="nav-logo-name">REDHAT<span>.AI</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#features" class="nav-link" data-ms="Features" data-en="Features">Features</a>
+    <a href="#signals" class="nav-link" data-ms="Signals" data-en="Signals">Signals</a>
+    <a href="#tools" class="nav-link" data-ms="Tools" data-en="Tools">Tools</a>
+    <a href="#pricing" class="nav-link" data-ms="Harga" data-en="Pricing">Harga</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('ms')">BM</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="signup.html" class="nav-cta" id="navCta">Mulakan Percuma →</a>
+    <div class="nav-mobile-btn" id="mobileBtn" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="glow-orb red"></div>
+  <div class="glow-orb red2"></div>
+  <div class="scanline"></div>
+
+  <div class="hero-badge">
+    <div class="badge-dot"></div>
+    <span class="badge-text" data-ms="A.I. Trading Platform #1 Malaysia" data-en="Malaysia's #1 A.I. Trading Platform">A.I. Trading Platform #1 Malaysia</span>
+  </div>
+
+  <h1 class="hero-title">
+    THE A.I. EDGE
+    <span class="line2">OTHER TRADERS</span>
+    <span class="line3">DON'T HAVE.</span>
+  </h1>
+
+  <p class="hero-sub">
+    <span data-ms="Signal lebih bijak. Mentor A.I. 24/7. Tools pengurusan risiko yang pintar." data-en="Smarter signals. 24/7 A.I. Mentor. Intelligent risk management tools.">Signal lebih bijak. Mentor A.I. 24/7. Tools pengurusan risiko yang pintar.</span><br>
+    <strong data-ms="Semua dalam satu platform. Percuma." data-en="All in one platform. Completely free.">Semua dalam satu platform. Percuma.</strong>
+  </p>
+
+  <div class="hero-actions">
+    <a href="signup.html" class="btn-primary" data-ms="🚀 Mulakan Percuma Sekarang" data-en="🚀 Start for Free Now">🚀 Mulakan Percuma Sekarang</a>
+    <a href="#features" class="btn-secondary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
+      <span data-ms="Tonton Demo" data-en="Watch Demo">Tonton Demo</span>
+    </a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-val">3,000+</div>
+      <div class="hero-stat-label" data-ms="Trader Aktif" data-en="Active Traders">Trader Aktif</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-val green">85%</div>
+      <div class="hero-stat-label">Win Rate</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">24/7</div>
+      <div class="hero-stat-label">A.I. Monitor</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">FREE</div>
+      <div class="hero-stat-label" data-ms="Untuk Mulakan" data-en="To Get Started">Untuk Mulakan</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER — XAUUSD & Nasdaq only -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="tickerTrack">
+    <div class="ticker-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span class="ticker-pair">XAUUSD</span><span class="ticker-val">4,472.50</span><span class="ticker-change">+0.84%</span><span class="ticker-dir buy">BUY</span>
+    </div>
+    <div class="ticker-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      <span class="ticker-pair">NASDAQ</span><span class="ticker-val">19,842.30</span><span class="ticker-change">+1.23%</span><span class="ticker-dir buy">BUY</span>
+    </div>
+    <div class="ticker-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span class="ticker-pair">XAUUSD</span><span class="ticker-val">4,472.50</span><span class="ticker-change">+0.84%</span><span class="ticker-dir buy">BUY</span>
+    </div>
+    <div class="ticker-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      <span class="ticker-pair">NASDAQ</span><span class="ticker-val">19,842.30</span><span class="ticker-change">+1.23%</span><span class="ticker-dir buy">BUY</span>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">✦ <span data-ms="Kenapa RedHat.AI" data-en="Why RedHat.AI">Kenapa RedHat.AI</span></div>
+      <h2 class="section-title"><span data-ms="SATU PLATFORM." data-en="ONE PLATFORM.">SATU PLATFORM.</span><br><span data-ms="SEMUA YANG ANDA PERLU." data-en="EVERYTHING YOU NEED.">SEMUA YANG ANDA PERLU.</span></h2>
+      <p class="section-sub" data-ms="Gabungan teknologi A.I. terkini dengan pengalaman trading sebenar — direka khusus untuk trader Malaysia." data-en="Cutting-edge A.I. technology combined with real trading experience — built specifically for Malaysian traders.">Gabungan teknologi A.I. terkini dengan pengalaman trading sebenar — direka khusus untuk trader Malaysia.</p>
+    </div>
+
+    <!-- PAIR HIGHLIGHT -->
+    <div class="pair-highlight reveal">
+      <div style="flex:1;min-width:200px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:8px" data-ms="Pasangan Trading Tersedia" data-en="Available Trading Pairs">Pasangan Trading Tersedia</div>
+        <div style="font-size:14px;color:var(--text2)" data-ms="Platform ini fokus pada 2 instrumen terbaik sahaja" data-en="This platform focuses on only the 2 best instruments">Platform ini fokus pada 2 instrumen terbaik sahaja</div>
+      </div>
+      <div class="pair-chip">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        <div>
+          <div class="pair-chip-name">XAUUSD</div>
+          <div class="pair-chip-label">Gold / US Dollar</div>
+        </div>
+        <div class="pair-chip-badge">AKTIF</div>
+      </div>
+      <div class="pair-chip">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+        <div>
+          <div class="pair-chip-name">NASDAQ</div>
+          <div class="pair-chip-label">US Tech Index</div>
+        </div>
+        <div class="pair-chip-badge">AKTIF</div>
+      </div>
+    </div>
+
+    <div class="features-grid reveal">
+      <div class="feature-card">
+        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+        <div class="feat-title" data-ms="A.I. Signal Pintar" data-en="Smart A.I. Signals">A.I. Signal Pintar</div>
+        <div class="feat-desc" data-ms="Enjin A.I. kami menganalisis 1,000+ data point setiap saat untuk janakan signal BUY/SELL yang tepat dengan entry, SL, dan TP yang jelas." data-en="Our A.I. engine analyzes 1,000+ data points every second to generate accurate BUY/SELL signals with clear entry, SL, and TP levels.">Enjin A.I. kami menganalisis 1,000+ data point setiap saat untuk janakan signal BUY/SELL yang tepat dengan entry, SL, dan TP yang jelas.</div>
+        <div class="feat-badge">85% Win Rate</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="feat-title" data-ms="Mentor A.I. 24/7" data-en="24/7 A.I. Mentor">Mentor A.I. 24/7</div>
+        <div class="feat-desc" data-ms="Tanya soalan trading bila-bila masa. Mentor A.I. kami faham Bahasa Malaysia dan boleh bantu dari analisis teknikal hingga psikologi trading." data-en="Ask trading questions anytime. Our A.I. Mentor understands Bahasa Malaysia and can help with technical analysis to trading psychology.">Tanya soalan trading bila-bila masa. Mentor A.I. kami faham Bahasa Malaysia dan boleh bantu dari analisis teknikal hingga psikologi trading.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="feat-title" data-ms="Risk Management" data-en="Risk Management">Risk Management</div>
+        <div class="feat-desc" data-ms="Kalkulator lot size, pip value, dan risk calculator dalam satu. Lindungi modal anda dengan pengurusan risiko yang sistematik." data-en="Lot size calculator, pip value, and risk calculator in one. Protect your capital with systematic risk management.">Kalkulator lot size, pip value, dan risk calculator dalam satu. Lindungi modal anda dengan pengurusan risiko yang sistematik.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNAL SECTION -->
+<section id="signals" class="signal-section">
+  <div class="container">
+    <div class="signal-layout">
+      <div class="signal-left reveal">
+        <div class="section-tag">✦ Signal A.I.</div>
+        <h2 class="section-title"><span data-ms="SIGNAL YANG TRADER LAIN TAK NAMPAK." data-en="SIGNALS OTHER TRADERS CAN'T SEE.">SIGNAL YANG TRADER LAIN TAK NAMPAK.</span></h2>
+        <ul class="signal-points">
+          <li>
+            <div class="sp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Entry Tepat" data-en="Precise Entry">Entry Tepat</strong> — <span data-ms="Harga masuk yang dianalisis A.I. berdasarkan struktur market, SMC, dan momentum." data-en="A.I.-analyzed entry price based on market structure, SMC, and momentum.">Harga masuk yang dianalisis A.I. berdasarkan struktur market, SMC, dan momentum.</span></span>
+          </li>
+          <li>
+            <div class="sp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Stop Loss Bijak" data-en="Smart Stop Loss">Stop Loss Bijak</strong> — <span data-ms="SL diletakkan di tahap yang melindungi modal tanpa terlalu ketat." data-en="SL placed at levels that protect capital without being too tight.">SL diletakkan di tahap yang melindungi modal tanpa terlalu ketat.</span></span>
+          </li>
+          <li>
+            <div class="sp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Take Profit Berganda" data-en="Multiple Take Profits">Take Profit Berganda</strong> — <span data-ms="TP1 dan TP2 untuk maksimumkan keuntungan dengan risiko terkawal." data-en="TP1 and TP2 to maximize profits with controlled risk.">TP1 dan TP2 untuk maksimumkan keuntungan dengan risiko terkawal.</span></span>
+          </li>
+          <li>
+            <div class="sp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Fokus 2 Pasangan" data-en="Focus on 2 Pairs">Fokus 2 Pasangan</strong> — <span data-ms="XAUUSD & Nasdaq sahaja. Kualiti > kuantiti." data-en="XAUUSD & Nasdaq only. Quality over quantity.">XAUUSD &amp; Nasdaq sahaja. Kualiti &gt; kuantiti.</span></span>
+          </li>
+        </ul>
+      </div>
+      <div class="reveal" style="display:flex;justify-content:center">
+        <div class="phone-mockup">
+          <div class="phone-notch"></div>
+          <div class="phone-header">
+            <div class="phone-logo">REDHAT<span>.AI</span></div>
+            <div class="live-pill"><div class="live-dot"></div>LIVE</div>
+          </div>
+          <div class="phone-body">
+            <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:10px" data-ms="SIGNAL TERKINI" data-en="LATEST SIGNALS">SIGNAL TERKINI</div>
+            <div class="sig-card-mini">
+              <div class="sig-top"><div class="sig-pair">XAUUSD</div><div class="sig-buy">BUY</div></div>
+              <div class="sig-data">
+                <div class="sig-field"><label>Entry</label><span class="e">4,472.00</span></div>
+                <div class="sig-field"><label>Stop Loss</label><span class="sl">4,457.00</span></div>
+                <div class="sig-field"><label>Take Profit 1</label><span class="tp">4,487.00</span></div>
+                <div class="sig-field"><label>Take Profit 2</label><span class="tp">4,499.00</span></div>
+              </div>
+            </div>
+            <div class="ai-row">
+              <div class="ai-row-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+              <div class="ai-row-text"><strong>A.I.:</strong> Bullish BOS pada H1. Momentum kuat. Masuk selepas retest zon 4,470.</div>
+            </div>
+            <div class="sig-card-mini" style="margin-top:10px">
+              <div class="sig-top"><div class="sig-pair">NASDAQ</div><div class="sig-buy">BUY</div></div>
+              <div class="sig-data">
+                <div class="sig-field"><label>Entry</label><span class="e">19,820</span></div>
+                <div class="sig-field"><label>Stop Loss</label><span class="sl">19,740</span></div>
+                <div class="sig-field"><label>Take Profit 1</label><span class="tp">19,920</span></div>
+                <div class="sig-field"><label>Take Profit 2</label><span class="tp">20,050</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENTOR SECTION -->
+<section id="mentor">
+  <div class="container">
+    <div class="mentor-layout">
+      <div class="reveal">
+        <div class="mentor-chat">
+          <div class="mentor-chat-header">
+            <div class="mentor-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+            <div>
+              <div class="mentor-chat-name">Mentor A.I. RedHat</div>
+              <div class="mentor-chat-status">● <span data-ms="Dalam talian sekarang" data-en="Online now">Dalam talian sekarang</span></div>
+            </div>
+          </div>
+          <div class="chat-msgs">
+            <div class="msg-user">
+              <div class="msg-bubble-user" data-ms="Macam mana nak kira lot size untuk XAUUSD?" data-en="How do I calculate lot size for XAUUSD?">Macam mana nak kira lot size untuk XAUUSD?</div>
+              <div class="msg-time" style="text-align:right">14:32</div>
+            </div>
+            <div class="msg-ai">
+              <div class="msg-bubble-ai">
+                <span data-ms="Baik! Formula mudah untuk lot size XAUUSD:" data-en="Sure! Simple formula for XAUUSD lot size:">Baik! Formula mudah untuk lot size XAUUSD:</span><br><br>
+                <strong>Lot = (Modal × % Risiko) ÷ (SL pips × $10)</strong><br><br>
+                <span data-ms="Contoh: Modal $1,000, risiko 1%, SL 20 pips:" data-en="Example: Capital $1,000, risk 1%, SL 20 pips:">Contoh: Modal $1,000, risiko 1%, SL 20 pips:</span><br>
+                = (1,000 × 0.01) ÷ (20 × 10) = <strong style="color:var(--cyan)">0.05 lot</strong>
+              </div>
+              <div class="msg-time">14:32</div>
+            </div>
+            <div class="msg-ai">
+              <div class="msg-bubble-ai"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="section-tag">✦ Mentor A.I.</div>
+        <h2 class="section-title"><span data-ms="GURU TRADING ANDA, 24/7." data-en="YOUR TRADING MENTOR, 24/7.">GURU TRADING ANDA, 24/7.</span></h2>
+        <p class="section-sub" style="margin-bottom:32px" data-ms="Mentor A.I. kami faham konteks Malaysia — dari analisis teknikal hingga soalan asas. Tanya apa sahaja, bila-bila masa." data-en="Our A.I. Mentor understands Malaysian context — from technical analysis to basic questions. Ask anything, anytime.">Mentor A.I. kami faham konteks Malaysia — dari analisis teknikal hingga soalan asas. Tanya apa sahaja, bila-bila masa.</p>
+        <a href="signup.html" class="btn-primary" style="display:inline-block;margin-top:32px" data-ms="Cuba A.I. Mentor Percuma →" data-en="Try A.I. Mentor Free →">Cuba A.I. Mentor Percuma →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS SECTION -->
+<section id="tools" class="tools-section">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">✦ Trading Tools</div>
+      <h2 class="section-title"><span data-ms="TOOLS YANG BUAT" data-en="TOOLS THAT MAKE">TOOLS YANG BUAT</span><br><span data-ms="PERBEZAAN." data-en="THE DIFFERENCE.">PERBEZAAN.</span></h2>
+    </div>
+    <div class="tools-grid reveal">
+      <div class="tool-card">
+        <div class="tool-icon red"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="tool-name" data-ms="Risk Calculator" data-en="Risk Calculator">Risk Calculator</div>
+        <div class="tool-desc" data-ms="Kira risiko dalam RM berdasarkan modal dan peratusan risiko anda." data-en="Calculate risk in RM based on your capital and risk percentage.">Kira risiko dalam RM berdasarkan modal dan peratusan risiko anda.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon cyan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="tool-name" data-ms="Lot Size Calculator" data-en="Lot Size Calculator">Lot Size Calculator</div>
+        <div class="tool-desc" data-ms="Dapatkan saiz lot yang tepat berdasarkan modal, peratus risiko, dan stop loss anda." data-en="Get the exact lot size based on your capital, risk percentage, and stop loss.">Dapatkan saiz lot yang tepat berdasarkan modal, peratus risiko, dan stop loss anda.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg></div>
+        <div class="tool-name" data-ms="Pip Value Calculator" data-en="Pip Value Calculator">Pip Value Calculator</div>
+        <div class="tool-desc" data-ms="Kira nilai pip dan potensi untung/rugi dalam USD dan MYR." data-en="Calculate pip value and potential profit/loss in USD and MYR.">Kira nilai pip dan potensi untung/rugi dalam USD dan MYR.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon gold"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <div class="tool-name" data-ms="Economic Calendar" data-en="Economic Calendar">Economic Calendar</div>
+        <div class="tool-desc" data-ms="Pantau berita high-impact dalam masa nyata. Bersedia sebelum volatiliti berlaku." data-en="Monitor high-impact news in real time. Be prepared before volatility strikes.">Pantau berita high-impact dalam masa nyata. Bersedia sebelum volatiliti berlaku.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon red"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="tool-name" data-ms="Session Tracker" data-en="Session Tracker">Session Tracker</div>
+        <div class="tool-desc" data-ms="Monitor sesi trading global secara langsung. Ketahui bila masa terbaik untuk masuk market." data-en="Monitor global trading sessions live. Know the best time to enter the market.">Monitor sesi trading global secara langsung. Ketahui bila masa terbaik untuk masuk market.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon cyan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+        <div class="tool-name" data-ms="Performance Dashboard" data-en="Performance Dashboard">Performance Dashboard</div>
+        <div class="tool-desc" data-ms="Jejaki perkembangan trading anda — win rate, streak, net pips dan lebih." data-en="Track your trading progress — win rate, streak, net pips and more.">Jejaki perkembangan trading anda — win rate, streak, net pips dan lebih.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px" class="reveal">
+      <a href="signup.html" class="btn-primary" data-ms="Akses Semua Tools Percuma →" data-en="Access All Tools Free →">Akses Semua Tools Percuma →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">✦ <span data-ms="Testimoni" data-en="Testimonials">Testimoni</span></div>
+      <h2 class="section-title"><span data-ms="TRADER YANG DAH BUKTIKAN." data-en="TRADERS WHO HAVE PROVEN IT.">TRADER YANG DAH BUKTIKAN.</span></h2>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Signal XAUUSD RedHat.AI memang tepat. Win rate saya naik dari 52% ke 81% dalam masa 3 bulan."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:rgba(230,57,70,0.1);color:var(--red)">AH</div>
+          <div><div class="testi-name">Ahmad Hafizuddin</div><div class="testi-role">Trader XAUUSD, KL</div></div>
+        </div>
+      </div>
+      <div class="testi-card" style="border-color:rgba(230,57,70,0.15)">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Signal Nasdaq RedHat.AI sangat konsisten. Tools lot size calculator pun sangat berguna untuk manage risiko."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:rgba(0,214,127,0.1);color:var(--green)">SN</div>
+          <div><div class="testi-name">Siti Norfazilah</div><div class="testi-role">Nasdaq Trader, Penang</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Platform paling lengkap yang saya guna. Fokus XAUUSD &amp; Nasdaq memang betul — lebih mudah konsisten."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:rgba(0,200,255,0.1);color:var(--cyan)">RZ</div>
+          <div><div class="testi-name">Rizwan Zakaria</div><div class="testi-role">Full-time Trader, JB</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING — FREE ONLY -->
+<section id="pricing" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">✦ <span data-ms="Harga" data-en="Pricing">Harga</span></div>
+      <h2 class="section-title"><span data-ms="SATU PELAN." data-en="ONE PLAN.">SATU PELAN.</span><br><span data-ms="SELAMANYA PERCUMA." data-en="FOREVER FREE.">SELAMANYA PERCUMA.</span></h2>
+      <p class="section-sub" style="margin:0 auto" data-ms="Tiada hidden fee. Tiada kad kredit. Akses penuh percuma selamanya." data-en="No hidden fees. No credit card. Full access completely free forever.">Tiada hidden fee. Tiada kad kredit. Akses penuh percuma selamanya.</p>
+    </div>
+
+    <div class="pricing-single reveal">
+      <div class="price-card-free">
+        <div class="price-free-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="price-tier" data-ms="Pelan Percuma" data-en="Free Plan">Pelan Percuma</div>
+        <div class="price-val">RM0</div>
+        <div class="price-period" data-ms="Selamanya · Tiada syarat" data-en="Forever · No strings attached">Selamanya · Tiada syarat</div>
+
+        <ul class="price-features">
+          <li>
+            <div class="pf-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Signal A.I. XAUUSD & Nasdaq" data-en="A.I. Signals — XAUUSD & Nasdaq">Signal A.I. XAUUSD &amp; Nasdaq</strong></span>
+            <span class="price-what-val">$187/mo</span>
+          </li>
+          <li>
+            <div class="pf-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Mentor A.I. 24/7" data-en="24/7 A.I. Mentor">Mentor A.I. 24/7</strong></span>
+            <span class="price-what-val">$57/mo</span>
+          </li>
+          <li>
+            <div class="pf-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Risk & Money Management Tools" data-en="Risk & Money Management Tools">Risk &amp; Money Management Tools</strong></span>
+            <span class="price-what-val">$47/mo</span>
+          </li>
+          <li>
+            <div class="pf-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Economic Calendar & Market News" data-en="Economic Calendar & Market News">Economic Calendar &amp; Market News</strong></span>
+            <span class="price-what-val">$23/mo</span>
+          </li>
+          <li>
+            <div class="pf-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Market Session Tracker" data-en="Market Session Tracker">Market Session Tracker</strong></span>
+            <span class="price-what-val">$23/mo</span>
+          </li>
+          <li>
+            <div class="pf-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Performance Dashboard" data-en="Performance Dashboard">Performance Dashboard</strong></span>
+            <span class="price-what-val">$57/mo</span>
+          </li>
+          <li>
+            <div class="pf-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <span><strong data-ms="Komuniti Trader Aktif" data-en="Active Trader Community">Komuniti Trader Aktif</strong></span>
+            <span class="price-what-val">$57/mo</span>
+          </li>
+        </ul>
+
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="font-size:13px;color:var(--text3);text-decoration:line-through;margin-bottom:4px" data-ms="Nilai sebenar: $599/bulan" data-en="Real value: $599/month">Nilai sebenar: $599/bulan</div>
+          <div style="font-size:22px;font-weight:700;color:var(--green)" data-ms="Harga anda hari ini: RM0" data-en="Your price today: RM0">Harga anda hari ini: <span style="font-family:'Bebas Neue',sans-serif;font-size:32px">RM0</span></div>
+        </div>
+
+        <a href="signup.html" class="price-btn-free" data-ms="🚀 DAFTAR PERCUMA SEKARANG" data-en="🚀 SIGN UP FREE NOW">🚀 DAFTAR PERCUMA SEKARANG</a>
+        <p class="price-note" data-ms="Tiada kad kredit. Tiada bayaran bulanan. Percuma selamanya." data-en="No credit card. No monthly fees. Free forever.">Tiada kad kredit. Tiada bayaran bulanan. Percuma selamanya.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="reveal">
+      <h2 class="cta-title"><span data-ms="SEDIA UNTUK " data-en="READY TO ">SEDIA UNTUK </span><em data-ms="MENANG" data-en="WIN">MENANG</em><br><span data-ms="LEBIH KONSISTEN?" data-en="MORE CONSISTENTLY?">LEBIH KONSISTEN?</span></h2>
+      <p class="cta-sub" data-ms="Sertai 3,000+ trader Malaysia yang sudah menggunakan kelebihan A.I. RedHat.AI. Percuma untuk mulakan." data-en="Join 3,000+ Malaysian traders already using the RedHat.AI advantage. Free to start.">Sertai 3,000+ trader Malaysia yang sudah menggunakan kelebihan A.I. RedHat.AI. Percuma untuk mulakan.</p>
+      <div class="cta-actions">
+        <a href="signup.html" class="btn-primary" style="font-size:16px;padding:18px 48px" data-ms="🚀 Mulakan Percuma Sekarang" data-en="🚀 Start Free Now">🚀 Mulakan Percuma Sekarang</a>
+      </div>
+      <p class="cta-note" data-ms="Tiada kad kredit diperlukan · Percuma selamanya · Batal bila-bila masa" data-en="No credit card required · Free forever · Cancel anytime">Tiada kad kredit diperlukan · Percuma selamanya · Batal bila-bila masa</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a href="index.html" class="footer-brand-logo">
+        <div class="footer-brand-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <div class="footer-brand-name">REDHAT<span>.AI</span></div>
+      </a>
+      <p class="footer-desc" data-ms="Kelebihan A.I. yang trader lain tak ada. Platform trading paling lengkap untuk trader Malaysia." data-en="The A.I. edge other traders don't have. The most complete trading platform for Malaysian traders.">Kelebihan A.I. yang trader lain tak ada. Platform trading paling lengkap untuk trader Malaysia.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" title="Telegram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></a>
+        <a href="#" class="social-btn" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title" data-ms="Platform" data-en="Platform">Platform</div>
+      <ul class="footer-links">
+        <li><a href="signup.html" data-ms="Daftar Percuma" data-en="Sign Up Free">Daftar Percuma</a></li>
+        <li><a href="pages/home.html">Dashboard</a></li>
+        <li><a href="pages/signals.html">Signals</a></li>
+        <li><a href="pages/mentor.html">A.I. Mentor</a></li>
+        <li><a href="pages/tools.html">Tools</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title" data-ms="Syarikat" data-en="Company">Syarikat</div>
+      <ul class="footer-links">
+        <li><a href="#" data-ms="Tentang Kami" data-en="About Us">Tentang Kami</a></li>
+        <li><a href="#" data-ms="Blog" data-en="Blog">Blog</a></li>
+        <li><a href="#" data-ms="Hubungi Kami" data-en="Contact Us">Hubungi Kami</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title" data-ms="Undang-undang" data-en="Legal">Undang-undang</div>
+      <ul class="footer-links">
+        <li><a href="#" data-ms="Terma Perkhidmatan" data-en="Terms of Service">Terma Perkhidmatan</a></li>
+        <li><a href="#" data-ms="Dasar Privasi" data-en="Privacy Policy">Dasar Privasi</a></li>
+        <li><a href="#" data-ms="Penafian Risiko" data-en="Risk Disclaimer">Penafian Risiko</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 RedHat.AI</div>
+    <div class="footer-disclaimer" data-ms="⚠️ Trading forex melibatkan risiko tinggi. Prestasi lepas tidak menjamin keputusan masa depan." data-en="⚠️ Trading involves high risk. Past performance does not guarantee future results.">⚠️ Trading forex melibatkan risiko tinggi. Prestasi lepas tidak menjamin keputusan masa depan.</div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+document.querySelectorAll('a,button,.feature-card,.tool-card,.testi-card,.price-card-free').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.classList.add('hover');ring.classList.add('hover')});
+  el.addEventListener('mouseleave',()=>{cursor.classList.remove('hover');ring.classList.remove('hover')});
+});
+
+// NAV SCROLL
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>50));
+
+// MOBILE NAV
+function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open')}
+document.getElementById('mobileNav').querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobileNav').classList.remove('open')));
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})});
+});
+
+// REVEAL
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);io.unobserve(e.target)}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// CURSOR HIDE ON MOBILE
+if('ontouchstart' in window){cursor.style.display='none';ring.style.display='none';document.body.style.cursor='auto'}
+
+// LANGUAGE SWITCHER
+let currentLang = 'ms';
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('htmlRoot').lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.classList.toggle('active', b.textContent.toLowerCase().includes(lang==='ms'?'bm':'en'));
+  });
+  document.querySelectorAll('[data-ms],[data-en]').forEach(el=>{
+    const val = el.getAttribute('data-'+lang);
+    if(val) el.textContent = val;
+  });
+  // Nav CTA
+  const cta = document.getElementById('navCta');
+  cta.textContent = lang==='ms' ? 'Mulakan Percuma →' : 'Start Free →';
+}
+</script>
+<script>
+// Cursor effect
+const cursor = document.createElement('div');
+const cursorRing = document.createElement('div');
+cursor.className = 'cursor';
+cursorRing.className = 'cursor-ring';
+document.body.appendChild(cursor);
+document.body.appendChild(cursorRing);
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  cursorRing.style.left = e.clientX + 'px';
+  cursorRing.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); cursorRing.classList.add('hover'); });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); cursorRing.classList.remove('hover'); });
+});
+// Nav scroll
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if(nav) nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+// FAQ toggle
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const ans = q.nextElementSibling;
+    ans.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>

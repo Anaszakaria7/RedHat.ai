@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RedHat.AI — Signals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body class="app-theme">
+<div class="app">
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 7v10l8 5 8-5V7L12 2z" stroke="white" stroke-width="2" stroke-linejoin="round"/><path d="M12 2v20M4 7l8 5 8-5" stroke="white" stroke-width="1.5"/></svg>
+      </div>
+      <div class="logo-name">REDHAT<span>.AI</span></div>
+    </div>
+    <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+  </div>
+
+  <div class="content">
+    <div class="page-title">
+      <h1>Signals</h1>
+      <div class="page-title-count" id="countBadge">6 Aktif</div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="setFilter('all',this)">SEMUA</button>
+      <button class="filter-btn" onclick="setFilter('buy',this)">BUY</button>
+      <button class="filter-btn" onclick="setFilter('sell',this)">SELL</button>
+      <button class="filter-btn" onclick="setFilter('active',this)">AKTIF</button>
+      <button class="filter-btn" onclick="setFilter('pending',this)">PENDING</button>
+      <button class="filter-btn" onclick="setFilter('closed',this)">SELESAI</button>
+    </div>
+
+    <div class="signals-list" id="sigList">
+      <div class="sig-card buy-card" data-dir="buy" data-status="active">
+        <div class="sig-card-head">
+          <div class="sig-left"><div class="sig-pair">XAUUSD</div><div class="dir-badge buy">BUY</div></div>
+          <div class="sig-right"><div class="sig-id">Signal #A401</div><div class="sig-time">2 minit lepas</div></div>
+        </div>
+        <div class="sig-card-body">
+          <div><div class="sig-field-label">Entry</div><div class="sig-field-val entry">4,472.00</div></div>
+          <div><div class="sig-field-label">Stop Loss</div><div class="sig-field-val sl">4,457.00</div></div>
+          <div><div class="sig-field-label">Take Profit 1</div><div class="sig-field-val tp">4,482.00</div></div>
+          <div><div class="sig-field-label">Take Profit 2</div><div class="sig-field-val tp">4,492.00</div></div>
+        </div>
+        <div class="sig-card-ai"><div class="ai-chip">A.I.</div><div class="ai-txt">Bullish structure break pada H1 — momentum kuat, RSI 62, masuk selepas retest.</div></div>
+        <div class="sig-card-foot"><div class="status-chip active">AKTIF</div><button class="place-btn">PLACE TRADE</button></div>
+      </div>
+
+      <div class="sig-card sell-card" data-dir="sell" data-status="active">
+        <div class="sig-card-head">
+          <div class="sig-left"><div class="sig-pair">EURUSD</div><div class="dir-badge sell">SELL</div></div>
+          <div class="sig-right"><div class="sig-id">Signal #A400</div><div class="sig-time">18 minit lepas</div></div>
+        </div>
+        <div class="sig-card-body">
+          <div><div class="sig-field-label">Entry</div><div class="sig-field-val entry">1.0892</div></div>
+          <div><div class="sig-field-label">Stop Loss</div><div class="sig-field-val sl">1.0915</div></div>
+          <div><div class="sig-field-label">Take Profit 1</div><div class="sig-field-val tp">1.0870</div></div>
+          <div><div class="sig-field-label">Take Profit 2</div><div class="sig-field-val tp">1.0848</div></div>
+        </div>
+        <div class="sig-card-ai"><div class="ai-chip">A.I.</div><div class="ai-txt">Bearish rejection di resistance 1.0910 — setup jelas, RR 1:2.5 sesuai.</div></div>
+        <div class="sig-card-foot"><div class="status-chip active">AKTIF</div><button class="place-btn">PLACE TRADE</button></div>
+      </div>
+
+      <div class="sig-card buy-card" data-dir="buy" data-status="pending">
+        <div class="sig-card-head">
+          <div class="sig-left"><div class="sig-pair">GBPUSD</div><div class="dir-badge buy">BUY</div></div>
+          <div class="sig-right"><div class="sig-id">Signal #A399</div><div class="sig-time">45 minit lepas</div></div>
+        </div>
+        <div class="sig-card-body">
+          <div><div class="sig-field-label">Entry</div><div class="sig-field-val entry">1.2745</div></div>
+          <div><div class="sig-field-label">Stop Loss</div><div class="sig-field-val sl">1.2720</div></div>
+          <div><div class="sig-field-label">Take Profit 1</div><div class="sig-field-val tp">1.2775</div></div>
+          <div><div class="sig-field-label">Take Profit 2</div><div class="sig-field-val tp">1.2800</div></div>
+        </div>
+        <div class="sig-card-ai"><div class="ai-chip">A.I.</div><div class="ai-txt">Tunggu konfirmasi candlestick pada support 1.2740 sebelum entry.</div></div>
+        <div class="sig-card-foot"><div class="status-chip pending">PENDING</div><button class="view-btn">LIHAT DETAILS</button></div>
+      </div>
+
+      <div class="sig-card sell-card" data-dir="sell" data-status="pending">
+        <div class="sig-card-head">
+          <div class="sig-left"><div class="sig-pair">USDJPY</div><div class="dir-badge sell">SELL</div></div>
+          <div class="sig-right"><div class="sig-id">Signal #A398</div><div class="sig-time">1 jam lepas</div></div>
+        </div>
+        <div class="sig-card-body">
+          <div><div class="sig-field-label">Entry</div><div class="sig-field-val entry">157.45</div></div>
+          <div><div class="sig-field-label">Stop Loss</div><div class="sig-field-val sl">157.80</div></div>
+          <div><div class="sig-field-label">Take Profit 1</div><div class="sig-field-val tp">157.10</div></div>
+          <div><div class="sig-field-label">Take Profit 2</div><div class="sig-field-val tp">156.70</div></div>
+        </div>
+        <div class="sig-card-ai"><div class="ai-chip">A.I.</div><div class="ai-txt">Divergence bearish pada M30 — menunggu retest resistance 157.50.</div></div>
+        <div class="sig-card-foot"><div class="status-chip pending">PENDING</div><button class="view-btn">LIHAT DETAILS</button></div>
+      </div>
+
+      <div class="sig-card buy-card" data-dir="buy" data-status="closed">
+        <div class="sig-card-head">
+          <div class="sig-left"><div class="sig-pair">XAUUSD</div><div class="dir-badge buy">BUY</div></div>
+          <div class="sig-right"><div class="sig-id">Signal #A397</div><div class="sig-time">3 jam lepas</div></div>
+        </div>
+        <div class="sig-card-body">
+          <div><div class="sig-field-label">Entry</div><div class="sig-field-val entry">4,455.00</div></div>
+          <div><div class="sig-field-label">Stop Loss</div><div class="sig-field-val sl">4,440.00</div></div>
+          <div><div class="sig-field-label">TP1 Hit</div><div class="sig-field-val tp">4,465.00</div></div>
+          <div><div class="sig-field-label">TP2 Hit</div><div class="sig-field-val tp">4,475.00</div></div>
+        </div>
+        <div class="sig-card-ai"><div class="ai-chip">A.I.</div><div class="ai-txt">TP1 &amp; TP2 berjaya dicapai — +30 pips. Trade berjaya.</div></div>
+        <div class="sig-card-foot"><div class="status-chip closed">SELESAI TP2</div><button class="view-btn">RECAP</button></div>
+      </div>
+
+      <div class="sig-card sell-card" data-dir="sell" data-status="closed">
+        <div class="sig-card-head">
+          <div class="sig-left"><div class="sig-pair">GBPJPY</div><div class="dir-badge sell">SELL</div></div>
+          <div class="sig-right"><div class="sig-id">Signal #A396</div><div class="sig-time">5 jam lepas</div></div>
+        </div>
+        <div class="sig-card-body">
+          <div><div class="sig-field-label">Entry</div><div class="sig-field-val entry">200.85</div></div>
+          <div><div class="sig-field-label">Stop Loss</div><div class="sig-field-val sl">201.20</div></div>
+          <div><div class="sig-field-label">TP1 Hit</div><div class="sig-field-val tp">200.45</div></div>
+          <div><div class="sig-field-label">TP2 Hit</div><div class="sig-field-val tp">200.10</div></div>
+        </div>
+        <div class="sig-card-ai"><div class="ai-chip">A.I.</div><div class="ai-txt">Sell dari resistance kuat — +75 pips. Prestasi cemerlang hari ini.</div></div>
+        <div class="sig-card-foot"><div class="status-chip closed">SELESAI TP2</div><button class="view-btn">RECAP</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="home.html" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      <div class="nav-label">Home</div>
+    </a>
+    <a href="signals.html" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      <div class="nav-label" style="color:var(--red)">Signals</div>
+      <div class="nav-dot"></div>
+    </a>
+    <a href="mentor.html" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      <div class="nav-label">A.I. Mentor</div>
+    </a>
+    <a href="#" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <div class="nav-label">Tools</div>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
+</div>
+
+<script>function setFilter(type,el){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.className='filter-btn');
+  if(type==='buy') el.className='filter-btn buy-active';
+  else if(type==='sell') el.className='filter-btn sell-active';
+  else el.className='filter-btn active';
+  let count=0;
+  document.querySelectorAll('.sig-card').forEach(card=>{
+    const dir=card.dataset.dir, status=card.dataset.status;
+    let show=false;
+    if(type==='all') show=true;
+    else if(type==='buy'&&dir==='buy') show=true;
+    else if(type==='sell'&&dir==='sell') show=true;
+    else if(type==='active'&&status==='active') show=true;
+    else if(type==='pending'&&status==='pending') show=true;
+    else if(type==='closed'&&status==='closed') show=true;
+    card.style.display=show?'block':'none';
+    if(show) count++;
+  });
+  document.getElementById('countBadge').textContent=count+' Signal';
+}</script>
+</body>
+</html>

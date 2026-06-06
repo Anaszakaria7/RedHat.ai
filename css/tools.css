@@ -1,0 +1,452 @@
+/* ═══════════════════════════════════════════
+   RedHat.AI — Tools Page Styles
+   News, Calculators, Market Sessions
+   ═══════════════════════════════════════════ */
+
+@import url('variables.css');
+
+/* ── NEWS ── */
+.news-date-row {
+  padding: 0 20px 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.news-date-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.news-date-line { flex: 1; height: 1px; background: var(--border); }
+
+.news-card {
+  margin: 0 20px 8px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px 15px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.news-card:hover { border-color: var(--border2); }
+.news-card.high { border-left: 3px solid var(--red); }
+.news-card.med { border-left: 3px solid var(--gold); }
+.news-card.low { border-left: 3px solid var(--text3); }
+
+.impact-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 34px;
+  padding-top: 2px;
+}
+
+.impact-icon {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.impact-icon.high { background: var(--red-dim); }
+.impact-icon.med { background: var(--gold-dim); }
+.impact-icon.low { background: var(--bg3); }
+
+.impact-pip {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.impact-pip.high { color: var(--red); }
+.impact-pip.med { color: var(--gold); }
+.impact-pip.low { color: var(--text3); }
+
+.news-body { flex: 1; }
+
+.news-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 4px;
+}
+
+.news-title {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 5px;
+}
+
+.news-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.news-currency {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--bg3);
+  color: var(--text2);
+  border: 1px solid var(--border2);
+}
+
+.news-forecast { font-size: 11px; color: var(--text2); }
+.news-prev { font-size: 11px; color: var(--text3); }
+
+.news-actual-row {
+  margin: 0 20px 14px;
+  background: rgba(0, 214, 127, 0.06);
+  border: 1px solid rgba(0, 214, 127, 0.15);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.actual-label {
+  font-size: 11px;
+  color: var(--text2);
+  letter-spacing: 0.5px;
+}
+
+.actual-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.actual-val.beat { color: var(--green); }
+.actual-val.miss { color: var(--red); }
+
+.actual-divider {
+  width: 1px; height: 24px;
+  background: var(--border2);
+}
+
+/* ── TOOLS GRID ── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 20px 6px;
+}
+
+.tool-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 14px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card:hover { border-color: var(--border2); }
+
+.tool-card.active {
+  border-color: rgba(0, 200, 255, 0.35);
+  background: rgba(0, 200, 255, 0.04);
+}
+
+.tool-card-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 10px;
+}
+
+.tool-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin-bottom: 2px;
+}
+
+.tool-card-desc {
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.3;
+}
+
+/* ── CALCULATOR PANEL ── */
+.calc-panel {
+  margin: 4px 20px 0;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+  display: none;
+}
+
+.calc-panel.open { display: block; }
+
+.calc-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calc-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.calc-close {
+  width: 26px; height: 26px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text2);
+}
+
+.calc-body { padding: 16px; }
+
+.field { margin-bottom: 12px; }
+
+.field-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+
+.field-row { display: flex; gap: 8px; }
+
+.calc-input {
+  flex: 1;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 9px;
+  padding: 10px 13px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.calc-input:focus { border-color: rgba(0, 200, 255, 0.35); }
+
+.calc-select {
+  flex: 1;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 9px;
+  padding: 10px 13px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.calc-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--red);
+  border: none;
+  border-radius: 10px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  margin-top: 4px;
+}
+
+.calc-btn:hover { opacity: 0.88; }
+
+/* ── RESULT BOX ── */
+.result-box {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 12px;
+  display: none;
+}
+
+.result-box.show { display: block; }
+
+.result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.result-row:last-child { margin-bottom: 0; }
+
+.result-label {
+  font-size: 12px;
+  color: var(--text2);
+  letter-spacing: 0.5px;
+}
+
+.result-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--cyan);
+}
+
+.result-val.green { color: var(--green); }
+.result-val.red { color: var(--red); }
+
+.result-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+/* ── MARKET SESSIONS ── */
+.sessions-scroll {
+  display: flex;
+  gap: 12px;
+  padding: 0 20px 16px;
+  overflow-x: auto;
+}
+
+.sessions-scroll::-webkit-scrollbar { display: none; }
+
+.session-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
+.session-card.open { border-color: rgba(0, 214, 127, 0.25); }
+.session-card.closed { opacity: 0.6; }
+
+.session-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.session-status {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.session-status.open {
+  background: rgba(0, 214, 127, 0.15);
+  color: var(--green);
+  border: 1px solid rgba(0, 214, 127, 0.3);
+}
+
+.session-status.closed {
+  background: var(--border);
+  color: var(--text2);
+}
+
+.session-progress {
+  height: 3px;
+  background: var(--border2);
+  border-radius: 2px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.session-prog-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 2px;
+}
+
+.session-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text2);
+}
+
+.overlap-banner {
+  margin: 0 20px 16px;
+  background: rgba(245, 166, 35, 0.08);
+  border: 1px solid rgba(245, 166, 35, 0.25);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overlap-text {
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ── NEWS CARD (home page variant) ── */
+.news-impact {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.news-impact.high { background: var(--red); box-shadow: 0 0 6px var(--red); }
+.news-impact.med { background: var(--gold); }
+
+.news-meta {
+  font-size: 11px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.news-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(230, 57, 70, 0.15);
+  color: var(--red);
+  border: 1px solid rgba(230, 57, 70, 0.2);
+  letter-spacing: 0.5px;
+}
+
+.news-badge.gold {
+  background: rgba(245, 166, 35, 0.12);
+  color: var(--gold);
+  border-color: rgba(245, 166, 35, 0.2);
+}

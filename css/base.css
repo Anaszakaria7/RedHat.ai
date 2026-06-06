@@ -1,0 +1,57 @@
+/* ═══════════════════════════════════════════
+   RedHat.AI — Base Styles & Reset
+   ═══════════════════════════════════════════ */
+
+@import url('variables.css');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* App container (mobile-first) */
+.app {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--bg);
+}
+
+/* Content scroll area */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 90px;
+}
+
+/* Links */
+a { text-decoration: none; color: inherit; }
+
+/* Images */
+img { max-width: 100%; display: block; }
+
+/* Form elements */
+input, textarea, select, button {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* Utility */
+.hidden { display: none !important; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.text-center { text-align: center; }
+.w-full { width: 100%; }
