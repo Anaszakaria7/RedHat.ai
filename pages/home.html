@@ -9,6 +9,83 @@
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/components.css">
 <link rel="stylesheet" href="../css/tools.css">
+
+<style>
+/* Live clock */
+.live-clock {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text2);
+  letter-spacing: 0.5px;
+}
+.live-clock-time {
+  color: var(--green);
+  font-weight: 500;
+}
+
+/* Session status */
+.session-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.session-status-badge.open { background: rgba(0,214,127,0.15); color: var(--green); border: 1px solid rgba(0,214,127,0.3); }
+.session-status-badge.closed { background: var(--bg3); color: var(--text3); border: 1px solid var(--border2); }
+.session-status-badge .dot { width: 5px; height: 5px; border-radius: 50%; }
+.session-status-badge.open .dot { background: var(--green); animation: pulse 1.5s infinite; }
+.session-status-badge.closed .dot { background: var(--text3); }
+
+/* Market closed banner */
+.market-closed-banner {
+  margin: 0 20px 16px;
+  background: rgba(230,57,70,0.08);
+  border: 1px solid rgba(230,57,70,0.2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.market-closed-text {
+  font-size: 13px;
+  color: var(--red);
+  font-weight: 600;
+}
+.market-closed-sub {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+
+/* Current time display */
+.current-session-info {
+  padding: 0 20px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.current-session-label {
+  font-size: 12px;
+  color: var(--text3);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.current-session-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+/* Stats with 0 state */
+.stat-value.zero { color: var(--text3); }
+.stat-sub.zero { color: var(--text3); }
+</style>
+
 </head>
 <body class="app-theme">
 <div class="app">
@@ -34,17 +111,18 @@
       <div class="greeting-name" id="greetingName">Trader<span> Dashboard</span></div>
     </div>
 
+    <!-- STATS ROW — Reset to 0 -->
     <div class="stats-row">
       <div class="stat-card green-accent">
         <div class="stat-label">Win Rate</div>
-        <div class="stat-value green">85%</div>
-        <div class="win-bar"><div class="win-fill"></div></div>
-        <div class="stat-sub">56W / 10L bulan ini</div>
+        <div class="stat-value green zero" id="statWinRate">0%</div>
+        <div class="win-bar"><div class="win-fill" id="statWinBar" style="width:0%"></div></div>
+        <div class="stat-sub zero" id="statWinLoss">0W / 0L bulan ini</div>
       </div>
       <div class="stat-card red-accent">
         <div class="stat-label">Net Pips</div>
-        <div class="stat-value green">+8,930</div>
-        <div class="stat-sub">Avg +135 pips/trade</div>
+        <div class="stat-value green zero" id="statNetPips">0</div>
+        <div class="stat-sub zero" id="statAvgPips">Avg 0 pips/trade</div>
       </div>
     </div>
 
@@ -55,10 +133,45 @@
           <div style="font-size:11px;color:var(--text2);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:2px">Pelan Anda</div>
           <div style="font-size:16px;font-weight:700;color:var(--green)" id="userPlan">FREE PLAN</div>
         </div>
-        <div style="font-size:12px;color:var(--text2)" id="userEmail">trader@redhat.ai</div>
+        <div style="font-size:12px;color:var(--text2)" id="userEmail">—</div>
       </div>
     </div>
 
+    <!-- MARKET SESSIONS — Real-time -->
+    <div class="section-header">
+      <div class="section-title">Market Sessions</div>
+      <div class="live-clock">
+        <span class="live-clock-time" id="liveClock">--:--:--</span>
+        <span id="liveDate">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Market Closed Banner (shown on weekend) -->
+    <div class="market-closed-banner" id="marketClosedBanner" style="display:none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      <div>
+        <div class="market-closed-text">Market Tutup</div>
+        <div class="market-closed-sub" id="marketClosedReason">Weekend — Semua sesi tutup</div>
+      </div>
+    </div>
+
+    <!-- Current Session Info -->
+    <div class="current-session-info">
+      <div class="current-session-label" id="currentSessionLabel">Memuatkan...</div>
+      <div class="current-session-time" id="currentSessionTime">—</div>
+    </div>
+
+    <div class="sessions-scroll" id="sessionsScroll">
+      <!-- Sessions will be rendered by JavaScript -->
+    </div>
+
+    <!-- Overlap Banner (hidden by default) -->
+    <div class="overlap-banner" id="overlapBanner" style="display:none">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="overlap-text" id="overlapText">—</div>
+    </div>
+
+    <!-- SIGNAL SECTION -->
     <div class="section-header">
       <div class="section-title">Signal Terkini</div>
       <a href="signals.html" class="see-all">Lihat Semua →</a>
@@ -86,42 +199,7 @@
       </div>
     </div>
 
-    <div class="section-header">
-      <div class="section-title">Market Sessions</div>
-    </div>
-
-    <div class="sessions-scroll">
-      <div class="session-card open">
-        <div class="session-name">Tokyo</div>
-        <div class="session-status open">OPEN</div>
-        <div class="session-progress"><div class="session-prog-fill" style="width:65%"></div></div>
-        <div class="session-time">08:00 – 17:00</div>
-      </div>
-      <div class="session-card open">
-        <div class="session-name">London</div>
-        <div class="session-status open">OPEN</div>
-        <div class="session-progress"><div class="session-prog-fill" style="width:15%"></div></div>
-        <div class="session-time">15:00 – 00:00</div>
-      </div>
-      <div class="session-card closed">
-        <div class="session-name">New York</div>
-        <div class="session-status closed">CLOSED</div>
-        <div class="session-progress"><div class="session-prog-fill" style="width:0%"></div></div>
-        <div class="session-time">20:00 – 05:00</div>
-      </div>
-      <div class="session-card closed">
-        <div class="session-name">Sydney</div>
-        <div class="session-status closed">CLOSED</div>
-        <div class="session-progress"><div class="session-prog-fill" style="width:0%"></div></div>
-        <div class="session-time">00:00 – 09:00</div>
-      </div>
-    </div>
-
-    <div class="overlap-banner">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <div class="overlap-text">High Volatility — Tokyo &amp; London overlap aktif sekarang</div>
-    </div>
-
+    <!-- MARKET NEWS -->
     <div class="section-header">
       <div class="section-title">Market News</div>
       <a href="tools.html" class="see-all">Lihat Semua →</a>
@@ -175,13 +253,13 @@
   </div>
 </div>
 
-<!-- Firebase Auth Check -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB5nJVBAaag6e0jlLHrMnEn6QU7s1Xmgjk",
+  apiKey: "AIzaSy...mgjk",
   authDomain: "redhat-ai-f89ff.firebaseapp.com",
   projectId: "redhat-ai-f89ff",
   storageBucket: "redhat-ai-f89ff.firebasestorage.app",
@@ -191,8 +269,201 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-// Auth guard — check localStorage FIRST, then wait for Firebase
+// ═══════════════════════════════════════════
+// REAL-TIME MARKET SESSIONS
+// ═══════════════════════════════════════════
+
+// Session times in UTC
+const SESSIONS = [
+  { name: "Tokyo", start: 0, end: 9, utcStart: 0, utcEnd: 9, color: "var(--gold)" },
+  { name: "London", start: 8, end: 17, utcStart: 8, utcEnd: 17, color: "var(--cyan)" },
+  { name: "New York", start: 13, end: 22, utcStart: 13, utcEnd: 22, color: "var(--red)" },
+  { name: "Sydney", start: 22, end: 7, utcStart: 22, utcEnd: 7, color: "var(--green)" }
+];
+
+function isSessionOpen(session) {
+  const now = new Date();
+  const utcHour = now.getUTCHours();
+  const day = now.getUTCDay(); // 0=Sun, 6=Sat
+
+  // Weekend check (Saturday & Sunday)
+  if (day === 0 || day === 6) return false;
+
+  // Friday after 22:00 UTC = closed
+  if (day === 5 && utcHour >= 22) return false;
+
+  // Sunday before 22:00 UTC = closed
+  if (day === 0 && utcHour < 22) return false;
+
+  if (session.utcStart < session.utcEnd) {
+    return utcHour >= session.utcStart && utcHour < session.utcEnd;
+  } else {
+    // Overnight session (Sydney)
+    return utcHour >= session.utcStart || utcHour < session.utcEnd;
+  }
+}
+
+function getSessionProgress(session) {
+  const now = new Date();
+  const utcHour = now.getUTCHours();
+  const utcMin = now.getUTCMinutes();
+  const currentMinutes = utcHour * 60 + utcMin;
+
+  const startMin = session.utcStart * 60;
+  const endMin = session.utcEnd * 60;
+
+  let totalDuration, elapsed;
+
+  if (startMin < endMin) {
+    totalDuration = endMin - startMin;
+    elapsed = currentMinutes - startMin;
+  } else {
+    // Overnight
+    totalDuration = (24 * 60 - startMin) + endMin;
+    if (currentMinutes >= startMin) {
+      elapsed = currentMinutes - startMin;
+    } else {
+      elapsed = (24 * 60 - startMin) + currentMinutes;
+    }
+  }
+
+  return Math.max(0, Math.min(100, Math.round((elapsed / totalDuration) * 100)));
+}
+
+function formatUTCHour(h) {
+  return h.toString().padStart(2, '0') + ":00";
+}
+
+function updateMarketSessions() {
+  const now = new Date();
+  const day = now.getUTCDay();
+  const isWeekend = (day === 0 || day === 6);
+
+  // Update clock
+  const localTime = now.toLocaleTimeString("ms-MY", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const localDate = now.toLocaleDateString("ms-MY", { weekday: "short", day: "numeric", month: "short" });
+  document.getElementById("liveClock").textContent = localTime;
+  document.getElementById("liveDate").textContent = localDate;
+
+  // Show/hide weekend banner
+  const closedBanner = document.getElementById("marketClosedBanner");
+  const closedReason = document.getElementById("marketClosedReason");
+
+  if (day === 6) {
+    closedBanner.style.display = "flex";
+    closedReason.textContent = "Sabtu — Semua sesi tutup. Market buka Isnin 22:00 MYT.";
+  } else if (day === 0) {
+    closedBanner.style.display = "flex";
+    closedReason.textContent = "Ahad — Semua sesi tutup. Market buka Isnin 22:00 MYT.";
+  } else {
+    closedBanner.style.display = "none";
+  }
+
+  // Render sessions
+  const scrollEl = document.getElementById("sessionsScroll");
+  let openSessions = [];
+  let html = "";
+
+  SESSIONS.forEach(s => {
+    const open = isWeekend ? false : isSessionOpen(s);
+    const progress = open ? getSessionProgress(s) : 0;
+    if (open) openSessions.push(s.name);
+
+    html += `
+      <div class="session-card ${open ? 'open' : 'closed'}">
+        <div class="session-name">${s.name}</div>
+        <div class="session-status-badge ${open ? 'open' : 'closed'}">
+          <div class="dot"></div>
+          ${open ? 'OPEN' : 'CLOSED'}
+        </div>
+        <div class="session-progress"><div class="session-prog-fill" style="width:${progress}%"></div></div>
+        <div class="session-time">${formatUTCHour(s.utcStart)} – ${formatUTCHour(s.utcEnd)} UTC</div>
+      </div>
+    `;
+  });
+
+  scrollEl.innerHTML = html;
+
+  // Current session info
+  const currentLabel = document.getElementById("currentSessionLabel");
+  const currentTime = document.getElementById("currentSessionTime");
+
+  if (isWeekend) {
+    currentLabel.textContent = "Market Tutup";
+    currentTime.textContent = "Weekend";
+  } else if (openSessions.length > 0) {
+    currentLabel.textContent = `Sesi Aktif: ${openSessions.join(", ")}`;
+    currentTime.textContent = localTime + " MYT";
+  } else {
+    currentLabel.textContent = "Tiada Sesi Aktif";
+    currentTime.textContent = "Tunggu sesi seterusnya";
+  }
+
+  // Overlap detection
+  const overlapBanner = document.getElementById("overlapBanner");
+  const overlapText = document.getElementById("overlapText");
+
+  if (openSessions.includes("Tokyo") && openSessions.includes("London")) {
+    overlapBanner.style.display = "flex";
+    overlapText.textContent = "⚡ High Volatility — Tokyo & London overlap aktif!";
+  } else if (openSessions.includes("London") && openSessions.includes("New York")) {
+    overlapBanner.style.display = "flex";
+    overlapText.textContent = "⚡ High Volatility — London & NY overlap aktif!";
+  } else {
+    overlapBanner.style.display = "none";
+  }
+}
+
+// Update immediately and every second
+updateMarketSessions();
+setInterval(updateMarketSessions, 1000);
+
+// ═══════════════════════════════════════════
+// LOAD USER DATA & STATS
+// ═══════════════════════════════════════════
+
+async function loadUserStats(uid) {
+  try {
+    const q = query(collection(db, "trades"), where("userId", "==", uid), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    const trades = snapshot.docs.map(d => d.data());
+
+    const total = trades.length;
+    const wins = trades.filter(t => t.result === "WIN").length;
+    const losses = trades.filter(t => t.result === "LOSS").length;
+    const winRate = total > 0 ? Math.round((wins / total) * 100) : 0;
+    const netPips = trades.reduce((sum, t) => sum + (t.pips || 0), 0);
+    const avgPips = total > 0 ? Math.round(netPips / total) : 0;
+
+    // Update stats
+    const winRateEl = document.getElementById("statWinRate");
+    winRateEl.textContent = winRate + "%";
+    winRateEl.className = "stat-value " + (winRate >= 50 ? "green" : "red");
+
+    document.getElementById("statWinBar").style.width = winRate + "%";
+    document.getElementById("statWinLoss").textContent = `${wins}W / ${losses}L bulan ini`;
+
+    const netPipsEl = document.getElementById("statNetPips");
+    netPipsEl.textContent = (netPips >= 0 ? "+" : "") + netPips;
+    netPipsEl.className = "stat-value " + (netPips >= 0 ? "green" : "red");
+
+    document.getElementById("statAvgPips").textContent = `Avg ${avgPips >= 0 ? "+" : ""}${avgPips} pips/trade`;
+
+    // Remove zero class if has data
+    if (total > 0) {
+      document.querySelectorAll(".zero").forEach(el => el.classList.remove("zero"));
+    }
+  } catch (e) {
+    console.log("No trades yet");
+  }
+}
+
+// ═══════════════════════════════════════════
+// AUTH GUARD
+// ═══════════════════════════════════════════
+
 (function() {
   const localUser = localStorage.getItem("redhat_user");
   if (!localUser && !auth.currentUser) { window.location.href = "signup.html"; return; }
@@ -218,6 +489,10 @@ const auth = getAuth(app);
       if (planEl) planEl.textContent = plan + " PLAN";
       const emailEl = document.getElementById("userEmail");
       if (emailEl) emailEl.textContent = email;
+
+      // Load stats from Firestore
+      const uid = userData.uid;
+      if (uid) loadUserStats(uid);
     } else {
       localStorage.removeItem("redhat_user");
       window.location.href = "signup.html";
@@ -225,7 +500,7 @@ const auth = getAuth(app);
   })();
 })();
 
-// Logout function (can be called from profile page)
+// Logout
 window.logout = async function() {
   try {
     await signOut(auth);
