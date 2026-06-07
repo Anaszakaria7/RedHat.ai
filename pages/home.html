@@ -211,6 +211,16 @@
     <div id="newsList" style="padding-bottom:16px">
       <!-- News will be loaded by JavaScript -->
     </div>
+
+    <!-- UPCOMING NEWS — Coming Soon -->
+    <div class="section-header" style="padding-top:8px">
+      <div class="section-title">📅 Coming Soon</div>
+      <div style="font-size:11px;color:var(--text3)">USD News</div>
+    </div>
+
+    <div id="upcomingNewsList" style="padding-bottom:16px">
+      <!-- Upcoming news will be loaded by JavaScript -->
+    </div>
   </div>
 
   <div class="bottom-nav">
@@ -595,6 +605,178 @@ async function loadMarketNews() {
 loadMarketNews();
 // Refresh every 5 minutes
 setInterval(loadMarketNews, 5 * 60 * 1000);
+
+// ═══════════════════════════════════════════
+// UPCOMING NEWS — Coming Soon (Tomorrow)
+// ═══════════════════════════════════════════
+
+async function loadUpcomingNews() {
+  const list = document.getElementById("upcomingNewsList");
+
+  try {
+    // Fetch from ForexFactory RSS
+    const rssUrl = "https://www.forexfactory.com/rss";
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`;
+
+    const response = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+    if (!response.ok) throw new Error("Fetch failed");
+
+    const xmlText = await response.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, "text/xml");
+    const items = xml.querySelectorAll("item");
+
+    const USD_KEYWORDS = [
+      "USD","U.S.","US ","Non-Farm","NFP","Fed ","FOMC","Interest Rate",
+      "GDP","CPI","PPI","Retail Sales","Durable Goods","ISM","PMI",
+      "Unemployment","Jobless","Trade Balance","Consumer Confidence",
+      "Philadelphia","Chicago","NY Empire","Housing","Existing Home",
+      "New Home","Building Permits","Industrial Production",
+      "Capacity Utilization","Beige Book","TIC","Wholesale",
+      "Business Inventories","Construction","Personal Income","PCE",
+      "Michigan","Gross Domestic Product","ADP","Average Hourly",
+      "Nonfarm","Factory Orders","Pending Home","New Home Sales",
+      "Personal Spending","Core PCE","Empire State","Philly Fed",
+      "Chicago PMI","NAHB","Housing Starts","Import Price","Export Price",
+      "Current Account","Wholesale Inventories","GDP Price Index",
+      "Corporate Profits","Productivity","Unit Labor Costs",
+      "Initial Claims","Continuing Claims","Nat Gas","Crude Oil",
+      "Inventories","EIA","Baker Hughes","Rig Count","Fed Chair",
+      "Fed Governor","Fed President","FOMC Minutes","FOMC Statement",
+      "Fed Beige Book","Fed Speech","Treasury","Yield Curve",
+      "Dollar Index","DX","ISM Services","ISM Manufacturing",
+      "S&P Global","Markit","Composite PMI","Services PMI",
+      "Manufacturing PMI","Construction Spending","Private Payrolls",
+      "Employment Cost","Job Openings","JOLTS","Labor Turnover",
+      "Nonfarm Productivity","Factory Production","Mining Production",
+      "Utilities Production","Total Vehicle Sales","Auto Sales",
+      "Domestic Production","Business Inventories","Total Business",
+      "Manufacturers","Retailers","Merchant Wholesalers",
+      "Total Industry","Total Manufacturing","Total Trade",
+      "Food Services","Drinking Places","Clothing Stores",
+      "Department Stores","Electronicss Stores","Furniture Stores",
+      "Health Care","Sporting Goods","Hobby Stores","Book Stores",
+      "General Merchandise","Other Miscellaneous","Nonstore Retailers",
+      "Food Stores","Gasoline Stations","Auto Dealers",
+      "Total Excluding Autos","Excluding Motor Vehicles",
+      "Excluding Defense","Durable Goods Orders","Nondefense Aircraft",
+      "Capital Goods","Core Capital Goods","Business Spending",
+      "Core Durable Goods","Total Shipments","Unfilled Orders",
+      "Inventories-to-Supply","New Orders","Factory Shipments",
+      "Construction Put","Residential Construction",
+      "Nonresidential Construction","Public Construction",
+      "State and Local","Federal Construction","Highway Construction",
+      "Education Construction","Health Care Construction",
+      "Office Construction","Commercial Construction",
+      "Manufacturing Construction","Power Plant Construction",
+      "Lodging Construction","Amusement Construction",
+      "Transportation Construction","Religious Construction",
+      "Agricultural Construction","Mining Construction"
+    ];
+
+    const HIGH_KEYWORDS = [
+      "Non-Farm","NFP","Nonfarm","Fed ","FOMC","Interest Rate","GDP",
+      "CPI","PPI","Retail Sales","Unemployment","Jobless Claims","ADP",
+      "Average Hourly","Empire State","Phily Fed"
+    ];
+
+    const upcoming = [];
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowDate = tomorrow.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
+    items.forEach((item) => {
+      const title = item.querySelector("title")?.textContent || "";
+      const pubDate = item.querySelector("pubDate")?.textContent || "";
+      const description = item.querySelector("description")?.textContent || "";
+
+      // Check if USD related
+      const isUSD = USD_KEYWORDS.some(kw =>
+        title.toLowerCase().includes(kw.toLowerCase()) ||
+        description.toLowerCase().includes(kw.toLowerCase())
+      );
+      if (!isUSD) return;
+
+      // Parse date and check if it's tomorrow/future
+      const date = new Date(pubDate);
+      const itemDateStr = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const itemTime = date.toLocaleTimeString("ms-MY", { hour: "2-digit", minute: "2-digit" }) + " MYT";
+
+      // Determine impact
+      const isHIGH = HIGH_KEYWORDS.some(kw =>
+        title.toLowerCase().includes(kw.toLowerCase())
+      );
+      const impact = isHIGH ? "high" : "med";
+
+      // Only show future/upcoming news
+      if (date >= new Date()) {
+        upcoming.push({
+          title,
+          impact,
+          time: itemTime,
+          date: itemDateStr,
+          isTomorrow: itemDateStr === tomorrowDate
+        });
+      }
+    });
+
+    // Sort by date
+    upcoming.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    if (upcoming.length === 0) {
+      list.innerHTML = `
+        <div style="padding:20px;text-align:center">
+          <div style="font-size:24px;margin-bottom:8px">📭</div>
+          <div style="font-size:13px;color:var(--text3)">Tiada USD news akan datang</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">Semak balik kemudian</div>
+        </div>
+      `;
+      return;
+    }
+
+    // Render upcoming news (max 5 items)
+    const displayNews = upcoming.slice(0, 5);
+    const groupedByDate = {};
+    displayNews.forEach(n => {
+      if (!groupedByDate[n.date]) groupedByDate[n.date] = [];
+      groupedByDate[n.date].push(n);
+    });
+
+    let html = "";
+    for (const [date, newsItems] of Object.entries(groupedByDate)) {
+      const dateLabel = date === tomorrowDate ? "Esok" : date;
+      html += `<div style="padding:0 20px 8px;font-size:11px;font-weight:700;letter:1px;text-transform:uppercase;color:var(--gold)">📆 ${dateLabel}</div>`;
+      newsItems.forEach(n => {
+        html += `
+          <div class="news-card" style="margin:0 20px 8px;border-left:3px solid var(--gold)">
+            <div class="news-impact ${n.impact}" style="opacity:0.6"></div>
+            <div style="flex:1">
+              <div class="news-title" style="color:var(--text2)">${n.title}</div>
+              <div class="news-meta">
+                <span>USD</span><span>•</span><span>${n.time}</span>
+                <span class="news-badge ${n.impact === 'high' ? '' : 'gold'}" style="opacity:0.7">${n.impact.toUpperCase()}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    list.innerHTML = html;
+
+  } catch (error) {
+    console.error("Upcoming news error:", error);
+    list.innerHTML = `
+      <div style="padding:20px;text-align:center">
+        <div style="font-size:13px;color:var(--text3)">News akan datang tidak tersedia</div>
+      </div>
+    `;
+  }
+}
+
+// Load upcoming news
+loadUpcomingNews();
+setInterval(loadUpcomingNews, 5 * 60 * 1000);
 
 // ═══════════════════════════════════════════
 // AUTH GUARD
