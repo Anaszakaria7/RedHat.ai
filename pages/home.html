@@ -71,16 +71,6 @@
 .session-ticker-track {
   display: flex;
   gap: 12px;
-  animation: tickerScroll 15s linear infinite;
-  width: max-content;
-  will-change: transform;
-}
-.session-ticker-track:hover {
-  animation-play-state: paused;
-}
-@keyframes tickerScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-25%); }
 }
 .session-ticker-item {
   background: var(--bg2);
@@ -421,6 +411,14 @@ function formatUTCHour(h) {
   return h.toString().padStart(2, '0') + ":00";
 }
 
+// ═══════════════════════════════════════════
+// SESSIONS TICKER — Animated Scroll
+// ═══════════════════════════════════════════
+
+let tickerPos = 0;
+let tickerSpeed = 0.5; // pixels per frame
+let tickerRunning = true;
+
 function renderSessionsTicker() {
   const now = new Date();
   const day = now.getUTCDay();
@@ -428,7 +426,6 @@ function renderSessionsTicker() {
   const localTime = now.toLocaleTimeString("ms-MY", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
   const localDate = now.toLocaleDateString("ms-MY", { weekday: "short", day: "numeric", month: "short" });
 
-  // Update clock
   document.getElementById("liveClock").textContent = localTime;
   document.getElementById("liveDate").textContent = localDate;
 
@@ -445,7 +442,7 @@ function renderSessionsTicker() {
     closedBanner.style.display = "none";
   }
 
-  // Build session cards (doubled for seamless loop)
+  // Build session cards
   const scrollEl = document.getElementById("sessionsScroll");
   let openSessions = [];
   let singleHTML = "";
@@ -468,8 +465,20 @@ function renderSessionsTicker() {
     `;
   });
 
-  // Render 4x content for seamless rotation
-  scrollEl.innerHTML = `<div class="session-ticker-track">${singleHTML}${singleHTML}${singleHTML}${singleHTML}</div>`;
+  // Render 4x for seamless loop
+  const track = document.createElement("div");
+  track.className = "session-ticker-track";
+  track.innerHTML = singleHTML + singleHTML + singleHTML + singleHTML;
+  scrollEl.innerHTML = "";
+  scrollEl.appendChild(track);
+
+  // Reset position
+  tickerPos = 0;
+  track.style.transform = "translateX(0)";
+
+  // Hover pause
+  scrollEl.onmouseenter = () => { tickerRunning = false; };
+  scrollEl.onmouseleave = () => { tickerRunning = true; };
 
   // Current session info
   const currentLabel = document.getElementById("currentSessionLabel");
@@ -499,9 +508,36 @@ function renderSessionsTicker() {
   }
 }
 
-// Render immediately and update every second
+function animateTicker() {
+  const track = document.querySelector(".session-ticker-track");
+  if (!track) {
+    requestAnimationFrame(animateTicker);
+    return;
+  }
+
+  if (tickerRunning) {
+    tickerPos -= tickerSpeed;
+
+    // Get width of one set of sessions
+    const totalWidth = track.scrollWidth / 4;
+
+    // When one set is fully scrolled, reset to beginning
+    if (Math.abs(tickerPos) >= totalWidth) {
+      tickerPos = 0;
+    }
+
+    track.style.transform = `translateX(${tickerPos}px)`;
+  }
+
+  requestAnimationFrame(animateTicker);
+}
+
+// Start
 renderSessionsTicker();
-setInterval(renderSessionsTicker, 1000);
+requestAnimationFrame(animateTicker);
+
+// Re-render every 5 seconds to update status/progress
+setInterval(renderSessionsTicker, 5000);
 
 // ═══════════════════════════════════════════
 // LOAD USER DATA & STATS
