@@ -199,32 +199,17 @@
       </div>
     </div>
 
-    <!-- MARKET NEWS -->
+    <!-- MARKET NEWS — Real-time from ForexFactory -->
     <div class="section-header">
       <div class="section-title">Market News</div>
-      <a href="tools.html" class="see-all">Lihat Semua →</a>
+      <div style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px">
+        <div style="width:5px;height:5px;background:var(--green);border-radius:50%"></div>
+        USD Only • Live
+      </div>
     </div>
 
-    <div class="news-card">
-      <div class="news-impact high"></div>
-      <div style="flex:1">
-        <div class="news-title">Non-Farm Employment Change</div>
-        <div class="news-meta"><span>USD</span><span>•</span><span>20:30 MYT</span><span class="news-badge">HIGH</span></div>
-      </div>
-    </div>
-    <div class="news-card">
-      <div class="news-impact high"></div>
-      <div style="flex:1">
-        <div class="news-title">Unemployment Rate</div>
-        <div class="news-meta"><span>USD</span><span>•</span><span>20:30 MYT</span><span class="news-badge">HIGH</span></div>
-      </div>
-    </div>
-    <div class="news-card" style="margin-bottom:16px">
-      <div class="news-impact med"></div>
-      <div style="flex:1">
-        <div class="news-title">Average Hourly Earnings m/m</div>
-        <div class="news-meta"><span>USD</span><span>•</span><span>20:30 MYT</span><span class="news-badge gold">MED</span></div>
-      </div>
+    <div id="newsList" style="padding-bottom:16px">
+      <!-- News will be loaded by JavaScript -->
     </div>
   </div>
 
@@ -459,6 +444,157 @@ async function loadUserStats(uid) {
     console.log("No trades yet");
   }
 }
+
+// ═══════════════════════════════════════════
+// REAL-TIME MARKET NEWS — ForexFactory RSS
+// ═══════════════════════════════════════════
+
+async function loadMarketNews() {
+  const newsList = document.getElementById("newsList");
+
+  // Show loading state
+  newsList.innerHTML = `
+    <div style="padding:20px;text-align:center">
+      <div style="font-size:13px;color:var(--text3)">Memuatkan news...</div>
+    </div>
+  `;
+
+  try {
+    // Try multiple CORS proxies for reliability
+    const rssUrl = "https://www.forexfactory.com/rss";
+    const proxies = [
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`,
+      `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`,
+    ];
+
+    let xmlText = null;
+
+    for (const proxyUrl of proxies) {
+      try {
+        const response = await fetch(proxyUrl, { signal: AbortSignal.timeout(5000) });
+        if (response.ok) {
+          xmlText = await response.text();
+          if (xmlText && xmlText.includes('<item>')) break;
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+
+    if (!xmlText) {
+      throw new Error("Failed to fetch RSS");
+    }
+
+    // Parse XML
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, "text/xml");
+    const items = xml.querySelectorAll("item");
+
+    const news = [];
+    items.forEach((item) => {
+      const title = item.querySelector("title")?.textContent || "";
+      const description = item.querySelector("description")?.textContent || "";
+      const pubDate = item.querySelector("pubDate")?.textContent || "";
+
+      // Filter for USD news only
+      const isUSD =
+        title.includes("USD") ||
+        title.includes("U.S.") ||
+        title.includes("US ") ||
+        title.includes("Non-Farm") ||
+        title.includes("NFP") ||
+        title.includes("Fed ") ||
+        title.includes("FOMC") ||
+        title.includes("Interest Rate") ||
+        title.includes("GDP") ||
+        title.includes("CPI") ||
+        title.includes("PPI") ||
+        title.includes("Retail Sales") ||
+        title.includes("Durable Goods") ||
+        title.includes("ISM") ||
+        title.includes("PMI") ||
+        title.includes("Unemployment") ||
+        title.includes("Jobless") ||
+        title.includes("Trade Balance") ||
+        title.includes("Consumer Confidence") ||
+        title.includes("密歇根") ||
+        title.includes("Philadelphia") ||
+        title.includes("Chicago") ||
+        title.includes("NY Empire") ||
+        title.includes("Housing") ||
+        title.includes("Existing Home") ||
+        title.includes("New Home") ||
+        title.includes("Building Permits") ||
+        title.includes("Industrial Production") ||
+        title.includes("Capacity Utilization") ||
+        title.includes("Beige Book") ||
+        title.includes("TIC") ||
+        title.includes("Wholesale") ||
+        title.includes("Business Inventories") ||
+        title.includes("Construction") ||
+        title.includes("Personal Income") ||
+        title.includes("PCE") ||
+        title.includes("Gross Domestic Product");
+
+      if (!isUSD) return;
+
+      // Determine impact level
+      const highImpact = [
+        "Non-Farm","NFP","Fed ","FOMC","Interest Rate","GDP","CPI","PPI",
+        "Retail Sales","Unemployment","Jobless Claims"
+      ];
+      const isHigh = highImpact.some(h => title.includes(h));
+      const impact = isHigh ? "high" : "med";
+
+      // Parse date
+      let timeStr = "—";
+      if (pubDate) {
+        const date = new Date(pubDate);
+        timeStr = date.toLocaleTimeString("ms-MY", { hour: "2-digit", minute: "2-digit" }) + " MYT";
+      }
+
+      news.push({ title, impact, time: timeStr });
+    });
+
+    // Display news (max 6 items)
+    if (news.length === 0) {
+      newsList.innerHTML = `
+        <div class="empty-state" style="padding:30px 20px">
+          <div style="font-size:13px;color:var(--text3)">Tiada USD news untuk hari ini</div>
+        </div>
+      `;
+      return;
+    }
+
+    newsList.innerHTML = news.slice(0, 6).map(n => `
+      <div class="news-card" style="margin:0 20px 8px">
+        <div class="news-impact ${n.impact}"></div>
+        <div style="flex:1">
+          <div class="news-title">${n.title}</div>
+          <div class="news-meta">
+            <span>USD</span><span>•</span><span>${n.time}</span>
+            <span class="news-badge ${n.impact === 'high' ? '' : 'gold'}">${n.impact.toUpperCase()}</span>
+          </div>
+        </div>
+      </div>
+    `).join("");
+
+  } catch (error) {
+    console.error("News fetch error:", error);
+    newsList.innerHTML = `
+      <div class="empty-state" style="padding:30px 20px">
+        <div style="font-size:24px;margin-bottom:8px">📡</div>
+        <div style="font-size:13px;color:var(--text3)">News temporarily unavailable</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">Will retry automatically</div>
+      </div>
+    `;
+  }
+}
+
+// Load news immediately
+loadMarketNews();
+// Refresh every 5 minutes
+setInterval(loadMarketNews, 5 * 60 * 1000);
 
 // ═══════════════════════════════════════════
 // AUTH GUARD
