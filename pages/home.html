@@ -495,18 +495,8 @@ function renderSessionsTicker() {
   }
 }
 
-// Render immediately and start animation
-renderSessionsTicker();
-startTickerAnimation();
-
-// Re-render every 10 seconds to update status/progress
-setInterval(() => {
-  renderSessionsTicker();
-  startTickerAnimation();
-}, 10000);
-
 // ═══════════════════════════════════════════
-// SESSIONS TICKER ANIMATION
+// SESSIONS TICKER ANIMATION — Variables first
 // ═══════════════════════════════════════════
 
 let tickerAnimId = null;
@@ -516,38 +506,25 @@ function startTickerAnimation() {
   const track = document.querySelector(".session-ticker-track");
   if (!track) return;
 
-  // Calculate the width of one set (half of total since we have 2x content)
   const totalWidth = track.scrollWidth / 2;
-
   let startTime = null;
-  const duration = 15000; // 15 seconds for one full loop
+  const duration = 15000;
 
   function step(timestamp) {
     if (!startTime) startTime = timestamp;
     if (tickerPaused) {
-      // Pause: don't advance time, but keep requesting frames
       tickerAnimId = requestAnimationFrame(step);
       return;
     }
-
     const elapsed = timestamp - startTime;
-    const progress = elapsed / duration; // 0 to 1
-    const x = -(progress * totalWidth); // 0 to -totalWidth
-
+    const progress = elapsed / duration;
+    const x = -(progress * totalWidth);
     track.style.transform = `translateX(${x}px)`;
-
-    // When we've scrolled one full set, reset seamlessly
-    if (progress >= 1) {
-      startTime = timestamp; // Reset timer
-    }
-
+    if (progress >= 1) { startTime = timestamp; }
     tickerAnimId = requestAnimationFrame(step);
   }
 
-  // Cancel any existing animation
   if (tickerAnimId) cancelAnimationFrame(tickerAnimId);
-
-  // Start
   tickerAnimId = requestAnimationFrame(step);
 }
 
@@ -555,8 +532,18 @@ function startTickerAnimation() {
 document.getElementById("sessionsScroll").addEventListener("mouseenter", () => { tickerPaused = true; });
 document.getElementById("sessionsScroll").addEventListener("mouseleave", () => { tickerPaused = false; });
 
-// ══════════════════════════════════════════</longcat_arg_key>
+// Render immediately and start animation
+renderSessionsTicker();
+startTickerAnimation();
 
+// Re-render every 10 seconds
+setInterval(() => {
+  renderSessionsTicker();
+  startTickerAnimation();
+}, 10000);
+
+// ═══════════════════════════════════════════
+// LOAD USER DATA & STATS
 // LOAD USER DATA & STATS
 // ═══════════════════════════════════════════
 
