@@ -436,25 +436,28 @@ async function loadTrades() {
   }
 }
 
-// Auth check — wait for Firebase to initialize
-(async function() {
-  const authReady = new Promise((resolve) => {
-    let resolved = false;
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!resolved) { resolved = true; resolve(user); unsubscribe(); }
+// Auth guard — check localStorage FIRST, then wait for Firebase
+(function() {
+  const localUser = localStorage.getItem("redhat_user");
+  if (!localUser && !auth.currentUser) { window.location.href = "signup.html"; return; }
+
+  (async function() {
+    const authReady = new Promise((resolve) => {
+      let resolved = false;
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (!resolved) { resolved = true; resolve(user); unsubscribe(); }
+      });
+      setTimeout(() => { if (!resolved) { resolved = true; resolve(localStorage.getItem("redhat_user") ? true : null); unsubscribe(); } }, 3000);
     });
-    setTimeout(() => { if (!resolved) { resolved = true; resolve(auth.currentUser); unsubscribe(); } }, 3000);
-  });
 
-  const user = await authReady;
-
-  if (user) {
-    loadTrades();
-  } else if (localStorage.getItem("redhat_user")) {
-    loadTrades();
-  } else {
-    window.location.href = "signup.html";
-  }
+    const result = await authReady;
+    if (result) {
+      loadTrades();
+    } else {
+      localStorage.removeItem("redhat_user");
+      window.location.href = "signup.html";
+    }
+  })();
 })();
 
 // Modal functions
