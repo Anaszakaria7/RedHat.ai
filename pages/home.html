@@ -62,6 +62,94 @@
   margin-top: 2px;
 }
 
+/* Sessions Ticker Animation */
+.sessions-scroll {
+  overflow: hidden;
+  padding: 0 0 16px 20px;
+}
+.session-ticker-track {
+  display: flex;
+  gap: 12px;
+  animation: tickerScroll 20s linear infinite;
+  width: max-content;
+}
+.session-ticker-track:hover {
+  animation-play-state: paused;
+}
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.session-ticker-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+.session-ticker-item.open {
+  border-color: rgba(0, 214, 127, 0.25);
+}
+.session-ticker-item.closed {
+  opacity: 0.6;
+}
+.session-ticker-item .session-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.session-ticker-item .session-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.session-ticker-item .session-status-badge.open {
+  background: rgba(0, 214, 127, 0.15);
+  color: var(--green);
+  border: 1px solid rgba(0, 214, 127, 0.3);
+}
+.session-ticker-item .session-status-badge.closed {
+  background: var(--bg3);
+  color: var(--text3);
+  border: 1px solid var(--border2);
+}
+.session-ticker-item .session-status-badge .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.session-ticker-item .session-status-badge.open .dot {
+  background: var(--green);
+  animation: pulse 1.5s infinite;
+}
+.session-ticker-item .session-status-badge.closed .dot {
+  background: var(--text3);
+}
+.session-ticker-item .session-progress {
+  height: 3px;
+  background: var(--border2);
+  border-radius: 2px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+.session-ticker-item .session-prog-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 2px;
+}
+.session-ticker-item .session-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text2);
+}
+
 /* Current time display */
 .current-session-info {
   padding: 0 20px 12px;
@@ -331,21 +419,20 @@ function formatUTCHour(h) {
   return h.toString().padStart(2, '0') + ":00";
 }
 
-function updateMarketSessions() {
+function renderSessionsTicker() {
   const now = new Date();
   const day = now.getUTCDay();
   const isWeekend = (day === 0 || day === 6);
-
-  // Update clock
   const localTime = now.toLocaleTimeString("ms-MY", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
   const localDate = now.toLocaleDateString("ms-MY", { weekday: "short", day: "numeric", month: "short" });
+
+  // Update clock
   document.getElementById("liveClock").textContent = localTime;
   document.getElementById("liveDate").textContent = localDate;
 
-  // Show/hide weekend banner
+  // Weekend banner
   const closedBanner = document.getElementById("marketClosedBanner");
   const closedReason = document.getElementById("marketClosedReason");
-
   if (day === 6) {
     closedBanner.style.display = "flex";
     closedReason.textContent = "Sabtu — Semua sesi tutup. Market buka Isnin 22:00 MYT.";
@@ -356,18 +443,18 @@ function updateMarketSessions() {
     closedBanner.style.display = "none";
   }
 
-  // Render sessions
+  // Build session cards (doubled for seamless loop)
   const scrollEl = document.getElementById("sessionsScroll");
   let openSessions = [];
-  let html = "";
+  let singleHTML = "";
 
   SESSIONS.forEach(s => {
     const open = isWeekend ? false : isSessionOpen(s);
     const progress = open ? getSessionProgress(s) : 0;
     if (open) openSessions.push(s.name);
 
-    html += `
-      <div class="session-card ${open ? 'open' : 'closed'}">
+    singleHTML += `
+      <div class="session-ticker-item ${open ? 'open' : 'closed'}">
         <div class="session-name">${s.name}</div>
         <div class="session-status-badge ${open ? 'open' : 'closed'}">
           <div class="dot"></div>
@@ -379,12 +466,12 @@ function updateMarketSessions() {
     `;
   });
 
-  scrollEl.innerHTML = html;
+  // Render doubled content for seamless infinite scroll
+  scrollEl.innerHTML = `<div class="session-ticker-track">${singleHTML}${singleHTML}</div>`;
 
   // Current session info
   const currentLabel = document.getElementById("currentSessionLabel");
   const currentTime = document.getElementById("currentSessionTime");
-
   if (isWeekend) {
     currentLabel.textContent = "Market Tutup";
     currentTime.textContent = "Weekend";
@@ -399,7 +486,6 @@ function updateMarketSessions() {
   // Overlap detection
   const overlapBanner = document.getElementById("overlapBanner");
   const overlapText = document.getElementById("overlapText");
-
   if (openSessions.includes("Tokyo") && openSessions.includes("London")) {
     overlapBanner.style.display = "flex";
     overlapText.textContent = "⚡ High Volatility — Tokyo & London overlap aktif!";
@@ -411,9 +497,9 @@ function updateMarketSessions() {
   }
 }
 
-// Update immediately and every second
-updateMarketSessions();
-setInterval(updateMarketSessions, 1000);
+// Render immediately and update every second
+renderSessionsTicker();
+setInterval(renderSessionsTicker, 1000);
 
 // ═══════════════════════════════════════════
 // LOAD USER DATA & STATS
