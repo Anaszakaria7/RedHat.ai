@@ -192,8 +192,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Check auth state
-onAuthStateChanged(auth, (user) => {
+// Check auth state — wait for Firebase to initialize
+(async function() {
+  const authReady = new Promise((resolve) => {
+    let resolved = false;
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!resolved) { resolved = true; resolve(user); unsubscribe(); }
+    });
+    setTimeout(() => { if (!resolved) { resolved = true; resolve(auth.currentUser); unsubscribe(); } }, 3000);
+  });
+
+  const user = await authReady;
+
   if (user) {
     // User is logged in - show their data
     const userData = JSON.parse(localStorage.getItem("redhat_user") || "{}");
@@ -201,25 +211,13 @@ onAuthStateChanged(auth, (user) => {
     const email = userData.email || user.email || "";
     const plan = userData.plan || "FREE";
 
-    // Update greeting
     const greetingEl = document.getElementById("greetingName");
-    if (greetingEl) {
-      greetingEl.innerHTML = displayName + '<span> Dashboard</span>';
-    }
-
-    // Update plan badge
+    if (greetingEl) greetingEl.innerHTML = displayName + '<span> Dashboard</span>';
     const planEl = document.getElementById("userPlan");
-    if (planEl) {
-      planEl.textContent = plan + " PLAN";
-    }
-
-    // Update email
+    if (planEl) planEl.textContent = plan + " PLAN";
     const emailEl = document.getElementById("userEmail");
-    if (emailEl) {
-      emailEl.textContent = email;
-    }
+    if (emailEl) emailEl.textContent = email;
   } else {
-    // Check localStorage first
     const localUser = localStorage.getItem("redhat_user");
     if (localUser) {
       const userData = JSON.parse(localUser);
@@ -232,15 +230,11 @@ onAuthStateChanged(auth, (user) => {
       if (planEl) planEl.textContent = plan + " PLAN";
       const emailEl = document.getElementById("userEmail");
       if (emailEl) emailEl.textContent = email;
-      return;
+    } else {
+      window.location.href = "signup.html";
     }
-    setTimeout(() => {
-      if (!auth.currentUser && !localStorage.getItem("redhat_user")) {
-        window.location.href = "signup.html";
-      }
-    }, 2000);
   }
-});
+})();
 
 // Logout function (can be called from profile page)
 window.logout = async function() {

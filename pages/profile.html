@@ -375,29 +375,44 @@ async function loadTradingStats(uid) {
   }
 }
 
-// Auth state — wait for Firebase to initialize
-let authChecked = false;
-onAuthStateChanged(auth, (user) => {
+// Auth guard — wait for Firebase to fully initialize before deciding
+(async function() {
+  // Wait for auth state to stabilize (max 3 seconds)
+  const authReady = new Promise((resolve) => {
+    let resolved = false;
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!resolved) {
+        resolved = true;
+        resolve(user);
+        unsubscribe();
+      }
+    });
+    // Timeout safety — after 3s, resolve with whatever we have
+    setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        resolve(auth.currentUser);
+        unsubscribe();
+      }
+    }, 3000);
+  });
+
+  const user = await authReady;
+
   if (user) {
-    authChecked = true;
+    // User is logged in — load their data
     loadUserData();
   } else {
-    // Check localStorage first — maybe Firebase just hasn't initialized
+    // Check localStorage as fallback
     const localUser = localStorage.getItem("redhat_user");
     if (localUser) {
-      // User data exists in localStorage, Firebase auth might still be loading
-      authChecked = true;
       loadUserData();
-      return;
+    } else {
+      // Truly not logged in — redirect
+      window.location.href = "signup.html";
     }
-    // Only redirect if we've waited enough for auth to initialize
-    setTimeout(() => {
-      if (!authChecked && !auth.currentUser && !localStorage.getItem("redhat_user")) {
-        window.location.href = "signup.html";
-      }
-    }, 2000);
   }
-});
+})();
 
 // Edit Profile Modal
 window.openEditModal = function() {

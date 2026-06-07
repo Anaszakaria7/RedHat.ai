@@ -436,26 +436,26 @@ async function loadTrades() {
   }
 }
 
-// Auth check
-let journalAuthChecked = false;
-onAuthStateChanged(auth, (user) => {
+// Auth check — wait for Firebase to initialize
+(async function() {
+  const authReady = new Promise((resolve) => {
+    let resolved = false;
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!resolved) { resolved = true; resolve(user); unsubscribe(); }
+    });
+    setTimeout(() => { if (!resolved) { resolved = true; resolve(auth.currentUser); unsubscribe(); } }, 3000);
+  });
+
+  const user = await authReady;
+
   if (user) {
-    journalAuthChecked = true;
+    loadTrades();
+  } else if (localStorage.getItem("redhat_user")) {
     loadTrades();
   } else {
-    // Check localStorage first
-    if (localStorage.getItem("redhat_user")) {
-      journalAuthChecked = true;
-      loadTrades();
-      return;
-    }
-    setTimeout(() => {
-      if (!journalAuthChecked && !auth.currentUser && !localStorage.getItem("redhat_user")) {
-        window.location.href = "signup.html";
-      }
-    }, 2000);
+    window.location.href = "signup.html";
   }
-});
+})();
 
 // Modal functions
 window.openAddModal = function() {
