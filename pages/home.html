@@ -66,19 +66,21 @@
 .sessions-scroll {
   overflow: hidden;
   padding: 0 0 16px 20px;
+  position: relative;
 }
 .session-ticker-track {
   display: flex;
   gap: 12px;
-  animation: tickerScroll 20s linear infinite;
+  animation: tickerScroll 15s linear infinite;
   width: max-content;
+  will-change: transform;
 }
 .session-ticker-track:hover {
   animation-play-state: paused;
 }
 @keyframes tickerScroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-25%); }
 }
 .session-ticker-item {
   background: var(--bg2);
@@ -466,8 +468,8 @@ function renderSessionsTicker() {
     `;
   });
 
-  // Render doubled content for seamless infinite scroll
-  scrollEl.innerHTML = `<div class="session-ticker-track">${singleHTML}${singleHTML}</div>`;
+  // Render 4x content for seamless rotation
+  scrollEl.innerHTML = `<div class="session-ticker-track">${singleHTML}${singleHTML}${singleHTML}${singleHTML}</div>`;
 
   // Current session info
   const currentLabel = document.getElementById("currentSessionLabel");
