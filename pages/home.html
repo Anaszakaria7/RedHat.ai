@@ -11,7 +11,22 @@
 <link rel="stylesheet" href="../css/tools.css">
 
 <style>
-/* Live clock */
+/* Page centering */
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+/* Page centering */
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
 .live-clock {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
@@ -337,7 +352,7 @@ import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/fi
 import { getFirestore, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSy...mgjk",
+  apiKey: "AIzaSyB5nJVBAaag6e0jlLHrMnEn6QU7s1Xmgjk",
   authDomain: "redhat-ai-f89ff.firebaseapp.com",
   projectId: "redhat-ai-f89ff",
   storageBucket: "redhat-ai-f89ff.firebasestorage.app",
@@ -911,39 +926,50 @@ setInterval(loadUpcomingNews, 5 * 60 * 1000);
 // ═══════════════════════════════════════════
 
 (function() {
+  // Step 1: If localStorage has user data, render UI immediately — don't wait for Firebase
   const localUser = localStorage.getItem("redhat_user");
-  if (!localUser && !auth.currentUser) { window.location.href = "signup.html"; return; }
 
-  (async function() {
-    const authReady = new Promise((resolve) => {
-      let resolved = false;
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (!resolved) { resolved = true; resolve(user); unsubscribe(); }
-      });
-      setTimeout(() => { if (!resolved) { resolved = true; resolve(localStorage.getItem("redhat_user") ? true : null); unsubscribe(); } }, 3000);
-    });
+  if (localUser) {
+    // User data exists — load UI straight away
+    const userData = JSON.parse(localUser);
+    const displayName = userData.firstName || userData.displayName || "Trader";
+    const email = userData.email || "";
+    const plan = userData.plan || "FREE";
+    const greetingEl = document.getElementById("greetingName");
+    if (greetingEl) greetingEl.innerHTML = displayName + '<span> Dashboard</span>';
+    const planEl = document.getElementById("userPlan");
+    if (planEl) planEl.textContent = plan + " PLAN";
+    const emailEl = document.getElementById("userEmail");
+    if (emailEl) emailEl.textContent = email;
+    const uid = userData.uid;
+    if (uid) loadUserStats(uid);
+  }
 
-    const result = await authReady;
-    if (result) {
+  // Step 2: Verify with Firebase in background (don't redirect during this)
+  let firebaseVerified = false;
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    firebaseVerified = true;
+    unsubscribe();
+    if (user) {
+      // Firebase confirmed — update localStorage with fresh data
       const userData = JSON.parse(localStorage.getItem("redhat_user") || "{}");
-      const displayName = userData.firstName || userData.displayName || "Trader";
-      const email = userData.email || "";
-      const plan = userData.plan || "FREE";
-      const greetingEl = document.getElementById("greetingName");
-      if (greetingEl) greetingEl.innerHTML = displayName + '<span> Dashboard</span>';
-      const planEl = document.getElementById("userPlan");
-      if (planEl) planEl.textContent = plan + " PLAN";
-      const emailEl = document.getElementById("userEmail");
-      if (emailEl) emailEl.textContent = email;
-
-      // Load stats from Firestore
-      const uid = userData.uid;
-      if (uid) loadUserStats(uid);
+      localStorage.setItem("redhat_user", JSON.stringify({ ...userData, uid: user.uid, email: user.email }));
     } else {
-      localStorage.removeItem("redhat_user");
-      window.location.href = "signup.html";
+      // Firebase says not logged in — only redirect if localStorage also empty
+      if (!localStorage.getItem("redhat_user")) {
+        window.location.href = "signup.html";
+      }
     }
-  })();
+  });
+
+  // Step 3: If no localStorage AND Firebase takes too long — redirect after 5s
+  if (!localUser) {
+    setTimeout(() => {
+      if (!firebaseVerified && !localStorage.getItem("redhat_user")) {
+        window.location.href = "signup.html";
+      }
+    }, 5000);
+  }
 })();
 
 // Logout
