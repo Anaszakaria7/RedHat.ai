@@ -62,7 +62,7 @@
   margin-top: 2px;
 }
 
-/* Sessions Ticker Animation */
+/* Sessions Ticker Animation - Seamless Loop */
 .sessions-scroll {
   overflow: hidden;
   padding: 0 0 16px 20px;
@@ -71,6 +71,14 @@
 .session-ticker-track {
   display: flex;
   gap: 12px;
+  animation: tickerLoop 12s linear infinite;
+}
+.session-ticker-track:hover {
+  animation-play-state: paused;
+}
+@keyframes tickerLoop {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 .session-ticker-item {
   background: var(--bg2);
@@ -412,12 +420,8 @@ function formatUTCHour(h) {
 }
 
 // ═══════════════════════════════════════════
-// SESSIONS TICKER — Animated Scroll
+// SESSIONS TICKER — Seamless Loop
 // ═══════════════════════════════════════════
-
-let tickerPos = 0;
-let tickerSpeed = 0.5; // pixels per frame
-let tickerRunning = true;
 
 function renderSessionsTicker() {
   const now = new Date();
@@ -465,20 +469,9 @@ function renderSessionsTicker() {
     `;
   });
 
-  // Render 4x for seamless loop
-  const track = document.createElement("div");
-  track.className = "session-ticker-track";
-  track.innerHTML = singleHTML + singleHTML + singleHTML + singleHTML;
-  scrollEl.innerHTML = "";
-  scrollEl.appendChild(track);
-
-  // Reset position
-  tickerPos = 0;
-  track.style.transform = "translateX(0)";
-
-  // Hover pause
-  scrollEl.onmouseenter = () => { tickerRunning = false; };
-  scrollEl.onmouseleave = () => { tickerRunning = true; };
+  // Render 2x content — CSS animation will scroll from 0 to -50% (one full set)
+  // When animation restarts, it looks seamless because content is duplicated
+  scrollEl.innerHTML = `<div class="session-ticker-track">${singleHTML}${singleHTML}</div>`;
 
   // Current session info
   const currentLabel = document.getElementById("currentSessionLabel");
@@ -508,35 +501,10 @@ function renderSessionsTicker() {
   }
 }
 
-function animateTicker() {
-  const track = document.querySelector(".session-ticker-track");
-  if (!track) {
-    requestAnimationFrame(animateTicker);
-    return;
-  }
-
-  if (tickerRunning) {
-    tickerPos -= tickerSpeed;
-
-    // Get width of one set of sessions
-    const totalWidth = track.scrollWidth / 4;
-
-    // When one set is fully scrolled, reset to beginning
-    if (Math.abs(tickerPos) >= totalWidth) {
-      tickerPos = 0;
-    }
-
-    track.style.transform = `translateX(${tickerPos}px)`;
-  }
-
-  requestAnimationFrame(animateTicker);
-}
-
-// Start
+// Render immediately
 renderSessionsTicker();
-requestAnimationFrame(animateTicker);
 
-// Re-render every 5 seconds to update status/progress
+// Update every 5 seconds (animation continues via CSS)
 setInterval(renderSessionsTicker, 5000);
 
 // ═══════════════════════════════════════════
