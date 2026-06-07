@@ -467,9 +467,6 @@ function renderSessionsTicker() {
   // Render 2x content for seamless loop
   scrollEl.innerHTML = `<div class="session-ticker-track">${singleHTML}${singleHTML}</div>`;
 
-  // Start seamless animation
-  startTickerAnimation();
-
   // Current session info
   const currentLabel = document.getElementById("currentSessionLabel");
   const currentTime = document.getElementById("currentSessionTime");
@@ -500,9 +497,13 @@ function renderSessionsTicker() {
 
 // Render immediately and start animation
 renderSessionsTicker();
+startTickerAnimation();
 
 // Re-render every 10 seconds to update status/progress
-setInterval(renderSessionsTicker, 10000);
+setInterval(() => {
+  renderSessionsTicker();
+  startTickerAnimation();
+}, 10000);
 
 // ═══════════════════════════════════════════
 // SESSIONS TICKER ANIMATION
