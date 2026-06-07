@@ -55,3 +55,37 @@ input, textarea, select, button {
 .flex-center { display: flex; align-items: center; justify-content: center; }
 .text-center { text-align: center; }
 .w-full { width: 100%; }
+
+/* ── SIGNAL CARDS ── */
+.signals-list { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; }
+.sig-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: pointer; transition: border-color 0.2s; }
+.sig-card:hover { border-color: var(--border2); }
+.sig-card.buy-card { border-left: 3px solid var(--green); }
+.sig-card.sell-card { border-left: 3px solid var(--red); }
+.sig-card-head { padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; }
+.sig-left { display: flex; align-items: center; gap: 10px; }
+.sig-pair { font-size: 18px; font-weight: 700; letter-spacing: 0.3px; }
+.dir-badge { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+.dir-badge.buy { background: rgba(0,214,127,0.15); color: var(--green); border: 1px solid rgba(0,214,127,0.3); }
+.dir-badge.sell { background: rgba(230,57,70,0.12); color: var(--red); border: 1px solid rgba(230,57,70,0.3); }
+.sig-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.sig-id { font-size: 11px; color: var(--text2); font-family: 'JetBrains Mono', monospace; }
+.sig-time { font-size: 11px; color: var(--text3); }
+.sig-card-body { padding: 0 16px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sig-field-label { font-size: 10px; color: var(--text2); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 2px; }
+.sig-field-val { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 500; }
+.sig-field-val.entry { color: var(--text); }
+.sig-field-val.sl { color: var(--red); }
+.sig-field-val.tp { color: var(--cyan); }
+.sig-card-ai { padding: 10px 16px; background: rgba(0,200,255,0.04); border-top: 1px solid var(--border); display: flex; align-items: flex-start; gap: 8px; }
+.ai-chip { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; color: var(--cyan); background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.2); border-radius: 4px; padding: 2px 7px; flex-shrink: 0; margin-top: 1px; }
+.ai-txt { font-size: 12px; color: var(--text2); line-height: 1.4; }
+.sig-card-foot { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.status-chip { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; padding: 4px 10px; border-radius: 6px; }
+.status-chip.active { background: rgba(0,214,127,0.12); color: var(--green); border: 1px solid rgba(0,214,127,0.25); }
+.status-chip.pending { background: rgba(245,166,35,0.1); color: var(--gold); border: 1px solid rgba(245,166,35,0.25); }
+.status-chip.closed { background: var(--bg3); color: var(--text2); border: 1px solid var(--border2); }
+.place-btn { font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.8px; padding: 7px 16px; border-radius: 8px; border: none; background: var(--red); color: #fff; cursor: pointer; transition: opacity 0.2s; }
+.place-btn:hover { opacity: 0.85; }
+.view-btn { font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: border-color 0.2s; }
+.view-btn:hover { border-color: var(--border); }
