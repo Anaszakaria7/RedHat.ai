@@ -71,14 +71,9 @@
 .session-ticker-track {
   display: flex;
   gap: 12px;
-  animation: tickerLoop 12s linear infinite;
 }
 .session-ticker-track:hover {
   animation-play-state: paused;
-}
-@keyframes tickerLoop {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
 }
 .session-ticker-item {
   background: var(--bg2);
@@ -469,9 +464,11 @@ function renderSessionsTicker() {
     `;
   });
 
-  // Render 2x content — CSS animation will scroll from 0 to -50% (one full set)
-  // When animation restarts, it looks seamless because content is duplicated
+  // Render 2x content for seamless loop
   scrollEl.innerHTML = `<div class="session-ticker-track">${singleHTML}${singleHTML}</div>`;
+
+  // Start seamless animation
+  startTickerAnimation();
 
   // Current session info
   const currentLabel = document.getElementById("currentSessionLabel");
@@ -501,13 +498,64 @@ function renderSessionsTicker() {
   }
 }
 
-// Render immediately
+// Render immediately and start animation
 renderSessionsTicker();
 
-// Update every 5 seconds (animation continues via CSS)
-setInterval(renderSessionsTicker, 5000);
+// Re-render every 10 seconds to update status/progress
+setInterval(renderSessionsTicker, 10000);
 
 // ═══════════════════════════════════════════
+// SESSIONS TICKER ANIMATION
+// ═══════════════════════════════════════════
+
+let tickerAnimId = null;
+let tickerPaused = false;
+
+function startTickerAnimation() {
+  const track = document.querySelector(".session-ticker-track");
+  if (!track) return;
+
+  // Calculate the width of one set (half of total since we have 2x content)
+  const totalWidth = track.scrollWidth / 2;
+
+  let startTime = null;
+  const duration = 15000; // 15 seconds for one full loop
+
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    if (tickerPaused) {
+      // Pause: don't advance time, but keep requesting frames
+      tickerAnimId = requestAnimationFrame(step);
+      return;
+    }
+
+    const elapsed = timestamp - startTime;
+    const progress = elapsed / duration; // 0 to 1
+    const x = -(progress * totalWidth); // 0 to -totalWidth
+
+    track.style.transform = `translateX(${x}px)`;
+
+    // When we've scrolled one full set, reset seamlessly
+    if (progress >= 1) {
+      startTime = timestamp; // Reset timer
+    }
+
+    tickerAnimId = requestAnimationFrame(step);
+  }
+
+  // Cancel any existing animation
+  if (tickerAnimId) cancelAnimationFrame(tickerAnimId);
+
+  // Start
+  tickerAnimId = requestAnimationFrame(step);
+}
+
+// Hover pause
+document.getElementById("sessionsScroll").addEventListener("mouseenter", () => { tickerPaused = true; });
+document.getElementById("sessionsScroll").addEventListener("mouseleave", () => { tickerPaused = false; });
+
+// ══════════════════════════════════════════</longcat_arg_key>
+
 // LOAD USER DATA & STATS
 // ═══════════════════════════════════════════
 
