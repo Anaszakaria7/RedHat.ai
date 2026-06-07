@@ -23,12 +23,14 @@ body {
 /* App container (mobile-first) */
 .app {
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
+  margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
   background: var(--bg);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
 }
 
 /* Content scroll area */

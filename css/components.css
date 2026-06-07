@@ -87,14 +87,14 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   background: var(--bg2);
   border-top: 1px solid var(--border);
   padding: 10px 0 20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  z-index: 100;
+  z-index: 9999;
 }
 
 .nav-item {
